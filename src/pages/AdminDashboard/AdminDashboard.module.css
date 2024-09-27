@@ -1,0 +1,30 @@
+.adminDashboard {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust based on your header height */
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f8f9fa;
+  padding: 1rem;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background-color: #e9ecef;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 1rem;
+}
