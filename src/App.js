@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/layout/Header/Header'
 import Footer from './components/layout/Footer/Footer';
 import LandingPage from './pages/LandingPage/LandingPage';
 import CoursePage from './pages/CoursePage/CoursePage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import AdminRoutes from './routes/AdminRoutes';
 import styles from './App.module.css';
 
 function App() {
-  // Placeholder for user role, replace with actual authentication logic
-  const userRole = 'student'; // or 'admin'
+  const [userRole, setUserRole] = useState('admin');
+
+  useEffect(() => {
+    const storedUserRole = localStorage.getItem('userRole');
+    if (storedUserRole) {
+      setUserRole(storedUserRole);
+    }
+  }, []);
 
   return (
     <Router>
@@ -21,7 +27,7 @@ function App() {
             <Route exact path="/" element={<LandingPage />} />
             <Route path="/courses/:type" element={<CoursePage />} />
             <Route path="/register/:courseId" element={<RegistrationPage />} />
-            {userRole === 'admin' && <Route path="/admin" element={<AdminDashboard />} />}
+            <Route path="/admin/*" element={<AdminRoutes setUserRole={setUserRole} />} />
           </Routes>
         </main>
         <Footer />

@@ -1,0 +1,14 @@
+:root {
+  --primary-color: #0066cc;
+  --secondary-color: #00ccff;
+  --background-gradient: linear-gradient(135deg, #0066cc, #00ccff);
+  --text-color: #ffffff;
+  --button-color: #ffffff;
+  --button-text-color: #0066cc;
+}
+
+body {
+  background: var(--background-gradient);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+}

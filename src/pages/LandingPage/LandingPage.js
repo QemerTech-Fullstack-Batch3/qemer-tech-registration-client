@@ -4,6 +4,8 @@ import styles from './LandingPage.module.css';
 import InPerson from '../../assets/InPerson.jpg'
 import Online2 from '../../assets/Online2.jpg'
 import hero from '../../assets/hero.jpg'
+
+import ContactUs from '../../components/common/ContactUs';
 const LandingPage = () => {
   return (
     <div className={styles.landingPage}>
@@ -40,6 +42,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      <ContactUs />
     </div>
   );
 };

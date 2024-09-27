@@ -1,9 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
-// import logo from '../assets/qemer-logo.png'; // Make sure to add your logo file
 import logoTemp from '../../../assets/image.png'
+import { Link as ScrollLink } from 'react-scroll';
+import { logout } from '../../../utils/auth';
+
 const Header = ({ userRole }) => {
+  const navigate = useNavigate();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -12,12 +22,21 @@ const Header = ({ userRole }) => {
       </div>
       <nav className={styles.nav}>
         <Link to="/">Home</Link>
-        <Link to="/contact">Contact Us</Link>
-        {userRole === 'admin' && (
-          <>
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/login">Login</Link>
-          </>
+        <ScrollLink to="contact-us" smooth={true} duration={500}>Contact Us</ScrollLink>
+        {userRole === 'admin' ? (
+          <div className={styles.userMenu}>
+            <Link to="/admin/dashboard" onMouseEnter={() => setShowUserMenu(true)} onMouseLeave={() => setShowUserMenu(false)}>
+              Admin
+            </Link>
+            {showUserMenu && (
+              <ul className={styles.dropdownMenu} onMouseEnter={() => setShowUserMenu(true)} onMouseLeave={() => setShowUserMenu(false)}>
+                <li><Link to="/admin/dashboard">Dashboard</Link></li>
+                <li><Link to="/" onClick={handleLogout}>Logout</Link></li>
+              </ul>
+            )}
+          </div>
+        ) : userRole !== 'student' && (
+          <Link to="/admin/login">Admin Login</Link>
         )}
       </nav>
     </header>
