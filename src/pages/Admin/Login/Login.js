@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import adminApi from '../../../api/adminApi';
 import styles from './Login.module.css';
 
 const LoginSchema = Yup.object().shape({
@@ -9,10 +10,20 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-const AdminLogin = () => {
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Handle admin login logic here
-    console.log(values);
+const AdminLogin = ({ setUserRole }) => {
+  const [loginError, setLoginError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await adminApi.login(values.email, values.password);
+      localStorage.setItem('userToken', response.data.accessToken);
+      setUserRole('Admin');
+      navigate('/admin/dashboard');
+    } catch (error) {
+      setLoginError('Invalid email or password');
+      console.error('Login error:', error);
+    }
     setSubmitting(false);
   };
 
@@ -38,15 +49,14 @@ const AdminLogin = () => {
               <ErrorMessage name="password" component="div" className={styles.error} />
             </div>
 
+            {loginError && <div className={styles.error}>{loginError}</div>}
+
             <button type="submit" disabled={isSubmitting}>
               Login
             </button>
           </Form>
         )}
       </Formik>
-      <div className={styles.signupLink}>
-        Don't have an account? <Link to="/admin/signup">Create new account</Link>
-      </div>
     </div>
   );
 };
