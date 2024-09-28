@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './RegistrationPage.module.css';
@@ -16,7 +16,10 @@ const RegistrationSchema = Yup.object().shape({
 
 const RegistrationPage = () => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchCourseInfo = async () => {
@@ -25,12 +28,13 @@ const RegistrationPage = () => {
         setCourse(response.data.course);
       } catch (error) {
         console.error('Error fetching course info:', error);
+        setErrorMessage('Failed to load course information. Please try again later.');
       }
     };
     fetchCourseInfo();
   }, [courseId]);
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
     fetch('http://localhost:5000/registration/registerforcourse', {
       method: 'POST',
       headers: {
@@ -38,16 +42,25 @@ const RegistrationPage = () => {
       },
       body: JSON.stringify({ ...values, courseId }),
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => { throw new Error(text) });
+        }
+        return response.json();
+      })
       .then(data => {
         console.log('Success:', data);
         setSubmitting(false);
-        // Handle successful registration (e.g., show a success message, redirect)
+        setConfirmationMessage('Registration successful! Thank you for registering.');
+        resetForm();
+        setTimeout(() => {
+          navigate('/'); // Redirect to home page after 3 seconds
+        }, 3000);
       })
       .catch((error) => {
         console.error('Error:', error);
         setSubmitting(false);
-        // Handle errors (e.g., show an error message)
+        setErrorMessage(error.message || 'An error occurred during registration. Please try again.');
       });
   };
 
@@ -55,6 +68,16 @@ const RegistrationPage = () => {
     <div className={styles.registrationPage}>
       <h1>Course Registration</h1>
       {course && <h2>{course.courseName}</h2>}
+      {confirmationMessage && (
+        <div className={styles.confirmationMessage}>
+          {confirmationMessage}
+        </div>
+      )}
+      {errorMessage && (
+        <div className={styles.errorMessage}>
+          {errorMessage}
+        </div>
+      )}
       <Formik
         initialValues={{ fullName: '', gender: '', phone: '', havePc: '', CityOfResidence: '' }}
         validationSchema={RegistrationSchema}
