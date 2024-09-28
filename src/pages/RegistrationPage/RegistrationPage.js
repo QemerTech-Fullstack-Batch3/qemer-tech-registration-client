@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './RegistrationPage.module.css';
 
+import courseApi from '../../api/courseApi';
+
 const RegistrationSchema = Yup.object().shape({
   fullName: Yup.string().required('Full name is required'),
-  gender: Yup.string().oneOf(['Male', 'Female'], 'Please select a gender').required('Gender is required'),
+  gender: Yup.string().required('Gender is required'),
   phone: Yup.string().required('Phone number is required'),
+  havePc: Yup.string().required('This field is required'),
+  CityOfResidence: Yup.string().required('City of residence is required'),
 });
 
 const RegistrationPage = () => {
   const { courseId } = useParams();
+  const [course, setCourse] = useState(null);
+
+  useEffect(() => {
+    const fetchCourseInfo = async () => {
+      try {
+        const response = await courseApi.getCourseInfo(courseId);
+        setCourse(response.data.course);
+      } catch (error) {
+        console.error('Error fetching course info:', error);
+      }
+    };
+    fetchCourseInfo();
+  }, [courseId]);
 
   const handleSubmit = (values, { setSubmitting }) => {
     fetch('http://localhost:5000/registration/registerforcourse', {
@@ -37,8 +54,9 @@ const RegistrationPage = () => {
   return (
     <div className={styles.registrationPage}>
       <h1>Course Registration</h1>
+      {course && <h2>{course.courseName}</h2>}
       <Formik
-        initialValues={{ fullName: '', gender: '', phone: '' }}
+        initialValues={{ fullName: '', gender: '', phone: '', havePc: '', CityOfResidence: '' }}
         validationSchema={RegistrationSchema}
         onSubmit={handleSubmit}
       >
@@ -66,6 +84,26 @@ const RegistrationPage = () => {
               <ErrorMessage name="phone" component="div" className={styles.error} />
             </div>
 
+            <div className={styles.formGroup}>
+              <label htmlFor="havePc">Do you have a PC?</label>
+              <Field as="select" name="havePc">
+                <option value="">Select option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </Field>
+              <ErrorMessage name="havePc" component="div" className={styles.error} />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="CityOfResidence">City of Residence</label>
+              <Field as="select" name="CityOfResidence">
+                <option value="">Select city</option>
+                <option value="Addis Ababa">Addis Ababa</option>
+                <option value="Outside Addis Ababa">Outside Addis Ababa</option>
+              </Field>
+              <ErrorMessage name="CityOfResidence" component="div" className={styles.error} />
+            </div>
+
             <button type="submit" disabled={isSubmitting}>
               Register
             </button>
@@ -74,6 +112,6 @@ const RegistrationPage = () => {
       </Formik>
     </div>
   );
-};
+}
 
 export default RegistrationPage;

@@ -4,8 +4,9 @@ import courseApi from '../../../api/courseApi';
 import adminApi from '../../../api/adminApi';
 import registrationApi from '../../../api/registrationApi';
 import scheduleApi from '../../../api/scheduleApi';
+import { FaBook, FaUserGraduate, FaCalendarAlt, FaUsersCog } from 'react-icons/fa';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState('courses');
 
   const renderContent = () => {
@@ -17,7 +18,7 @@ const AdminDashboard = () => {
       case 'schedules':
         return <ScheduleManagement />;
       case 'admins':
-        return <AdminManagement />;
+        return userRole === 'SuperAdmin' ? <AdminManagement /> : null;
       default:
         return <div>Select a tab</div>;
     }
@@ -26,10 +27,30 @@ const AdminDashboard = () => {
   return (
     <div className={styles.adminDashboard}>
       <nav className={styles.sidebar}>
-        <button onClick={() => setActiveTab('courses')}>Courses</button>
-        <button onClick={() => setActiveTab('registrations')}>Registrations</button>
-        <button onClick={() => setActiveTab('schedules')}>Schedules</button>
-        <button onClick={() => setActiveTab('admins')}>Admins</button>
+        <ul>
+          <li className={activeTab === 'courses' ? styles.active : ''}>
+            <button onClick={() => setActiveTab('courses')}>
+              <FaBook /> Courses
+            </button>
+          </li>
+          <li className={activeTab === 'registrations' ? styles.active : ''}>
+            <button onClick={() => setActiveTab('registrations')}>
+              <FaUserGraduate /> Registrations
+            </button>
+          </li>
+          <li className={activeTab === 'schedules' ? styles.active : ''}>
+            <button onClick={() => setActiveTab('schedules')}>
+              <FaCalendarAlt /> Schedules
+            </button>
+          </li>
+          {userRole === 'SuperAdmin' && (
+            <li className={activeTab === 'admins' ? styles.active : ''}>
+              <button onClick={() => setActiveTab('admins')}>
+                <FaUsersCog /> Admin Management
+              </button>
+            </li>
+          )}
+        </ul>
       </nav>
       <main className={styles.content}>
         {renderContent()}
@@ -93,6 +114,7 @@ const CourseManagement = () => {
     </div>
   );
 };
+
 
 const RegistrationManagement = () => {
   const [registrations, setRegistrations] = useState([]);
@@ -206,6 +228,7 @@ const ScheduleManagement = () => {
 
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
+  const [registrars, setRegistrars] = useState([]);
   const [pendingUsers, setPendingUsers] = useState([]);
 
   useEffect(() => {
@@ -214,11 +237,13 @@ const AdminManagement = () => {
 
   const fetchAdminData = async () => {
     try {
-      const [adminsResponse, pendingResponse] = await Promise.all([
+      const [adminsResponse, registrarsResponse, pendingResponse] = await Promise.all([
         adminApi.getAdmins(),
+        adminApi.getRegistrars(),
         adminApi.getUsersInPending()
       ]);
       setAdmins(adminsResponse.data.admins);
+      setRegistrars(registrarsResponse.data.Registrar);
       setPendingUsers(pendingResponse.data.UsersInPending);
     } catch (error) {
       console.error('Error fetching admin data:', error);
@@ -251,6 +276,12 @@ const AdminManagement = () => {
       <ul>
         {admins.map(admin => (
           <li key={admin._id}>{admin.username} - {admin.email} - {admin.role}</li>
+        ))}
+      </ul>
+      <h3>Active Registrars</h3>
+      <ul>
+        {registrars.map(registrar => (
+          <li key={registrar._id}>{registrar.username} - {registrar.email} - {registrar.role}</li>
         ))}
       </ul>
     </div>

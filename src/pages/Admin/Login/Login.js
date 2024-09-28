@@ -18,7 +18,8 @@ const AdminLogin = ({ setUserRole }) => {
     try {
       const response = await adminApi.login(values.email, values.password);
       localStorage.setItem('userToken', response.data.accessToken);
-      setUserRole('Admin');
+      localStorage.setItem('userRole', response.data.role);
+      setUserRole(response.data.role);
       navigate('/admin/dashboard');
     } catch (error) {
       setLoginError('Invalid email or password');

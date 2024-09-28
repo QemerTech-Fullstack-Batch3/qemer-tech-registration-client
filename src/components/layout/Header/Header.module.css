@@ -26,61 +26,47 @@
   align-items: center;
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-}
-
 .nav a,
 .nav span,
-.userMenu > a {
+.navLink {
   margin-left: 1rem;
   text-decoration: none;
   color: #333;
   cursor: pointer;
   transition: color 0.3s ease;
+  font-size: 1rem;
 }
 
 .nav a:hover,
 .nav span:hover,
-.userMenu > a:hover {
-  color: #0056b3;
+.navLink:hover {
+  color: #007bff;
 }
 
-.dropdownMenu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 0.5rem 0;
-  list-style-type: none;
-  z-index: 1000;
-}
 
-.dropdownMenu li {
-  padding: 0.5rem 1rem;
-}
-
-.dropdownMenu a {
-  display: block;
-  width: 100%;
-  text-align: left;
-  color: #333;
-  text-decoration: none;
-}
-
-.dropdownMenu a:hover {
-  background-color: #f0f0f0;
-}
-
-.nav a {
-  color: #333;
-  text-decoration: none;
+.logoutButton {
   margin-left: 1rem;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-size: 1rem;
 }
 
-.nav a:hover {
-  text-decoration: underline;
+.logoutButton:hover {
+  color: #007bff;
+}
+
+.loginLink {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-size: 1rem;
+}
+
+.loginLink:hover {
+  color: #007bff;
 }

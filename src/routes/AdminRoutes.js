@@ -6,13 +6,13 @@ import AdminLogin from '../pages/Admin/Login/Login';
 
 const AdminRoutes = ({ setUserRole }) => {
   const isAuthenticated = localStorage.getItem('userToken') !== null;
-
+  const userRole = localStorage.getItem('userRole');
   return (
     <Routes>
       <Route path="signup" element={<AdminSignUp setUserRole={setUserRole} />} />
       <Route path="login" element={<AdminLogin setUserRole={setUserRole} />} />
       {isAuthenticated ? (
-        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="dashboard" element={<AdminDashboard userRole={userRole} setUserRole={setUserRole} />} />
       ) : (
         <Route path="dashboard" element={<Navigate to="/admin/login" replace />} />
       )}

@@ -9,7 +9,7 @@ import AdminRoutes from './routes/AdminRoutes';
 import styles from './App.module.css';
 
 function App() {
-  const [userRole, setUserRole] = useState('admin');
+  const [userRole, setUserRole] = useState('student');
 
   useEffect(() => {
     const storedUserRole = localStorage.getItem('userRole');
@@ -21,7 +21,7 @@ function App() {
   return (
     <Router>
       <div className={styles.app}>
-        <Header userRole={userRole} />
+      <Header userRole={userRole} setUserRole={setUserRole} />
         <main className={styles.mainContent}>
           <Routes>
             <Route exact path="/" element={<LandingPage />} />

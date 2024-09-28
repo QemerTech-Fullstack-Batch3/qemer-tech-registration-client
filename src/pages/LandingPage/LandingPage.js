@@ -27,7 +27,7 @@ const LandingPage = () => {
           <div className={styles.courseTypeContent}>
             <h2>In-Person Courses</h2>
             <p>Experience hands-on learning with our expert instructors.</p>
-            <Link to="/courses/in-person" className={styles.learnMoreBtn}>Learn More</Link>
+            <Link to="/courses/inperson" className={styles.learnMoreBtn}>Learn More</Link>
           </div>
         </div>
         
