@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './RegistrationPage.module.css';
-
 import courseApi from '../../api/courseApi';
+import registrationApi from '../../api/registrationApi';
 
 const RegistrationSchema = Yup.object().shape({
   fullName: Yup.string().required('Full name is required'),
@@ -34,34 +34,22 @@ const RegistrationPage = () => {
     fetchCourseInfo();
   }, [courseId]);
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    fetch('http://localhost:5000/registration/registerforcourse', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ ...values, courseId }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          return response.text().then(text => { throw new Error(text) });
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Success:', data);
-        setSubmitting(false);
-        setConfirmationMessage('Registration successful! Thank you for registering.');
-        resetForm();
-        setTimeout(() => {
-          navigate('/'); // Redirect to home page after 3 seconds
-        }, 3000);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setSubmitting(false);
-        setErrorMessage(error.message || 'An error occurred during registration. Please try again.');
-      });
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const registrationData = { ...values, courseId };
+      const response = await registrationApi.registerForCourse(registrationData);
+      console.log('Success:', response.data);
+      setConfirmationMessage('Registration successful! Thank you for registering.');
+      resetForm();
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    } catch (error) {
+      console.error('Error:', error);
+      setErrorMessage(error.response?.data || 'An error occurred during registration. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -135,6 +123,6 @@ const RegistrationPage = () => {
       </Formik>
     </div>
   );
-}
+};
 
 export default RegistrationPage;

@@ -15,7 +15,7 @@ const Header = ({ userRole, setUserRole }) => {
     navigate('/');
   };
 
-  const isAdminUser = ['Admin', 'Registrar', 'SuperAdmin'].includes(userRole);
+  // const isAdminUser = ['Admin', 'Registrar', 'SuperAdmin'].includes(userRole);
 
   return (
     <header className={styles.header}>
@@ -26,9 +26,9 @@ const Header = ({ userRole, setUserRole }) => {
       <nav className={styles.nav}>
         <Link to="/">Home</Link>
         <ScrollLink to="contact-us" smooth={true} duration={500}>Contact Us</ScrollLink>
-        {isAdminUser ? (
+        {userRole ? (
           <a href="/" onClick={handleLogout} className={styles.navLink}>Logout</a>
-        ) : userRole !== 'student' && (
+        ) : (
           <Link to="/admin/login" className={styles.navLink}>Admin Login</Link>
         )}
       </nav>

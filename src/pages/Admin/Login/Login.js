@@ -17,10 +17,14 @@ const AdminLogin = ({ setUserRole }) => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await adminApi.login(values.email, values.password);
-      localStorage.setItem('userToken', response.data.accessToken);
-      localStorage.setItem('userRole', response.data.role);
-      setUserRole(response.data.role);
-      navigate('/admin/dashboard');
+      if (['Admin', 'Registrar', 'SuperAdmin'].includes(response.data.role)) {
+        localStorage.setItem('userToken', response.data.accessToken);
+        localStorage.setItem('userRole', response.data.role);
+        setUserRole(response.data.role);
+        navigate('/admin/dashboard');
+      } else {
+        setLoginError('Access denied. Only admin users can log in.');
+      }
     } catch (error) {
       setLoginError('Invalid email or password');
       console.error('Login error:', error);

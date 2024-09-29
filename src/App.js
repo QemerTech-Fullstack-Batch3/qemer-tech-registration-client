@@ -9,7 +9,7 @@ import AdminRoutes from './routes/AdminRoutes';
 import styles from './App.module.css';
 
 function App() {
-  const [userRole, setUserRole] = useState('admin');
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const storedUserRole = localStorage.getItem('userRole');
