@@ -1,12 +1,13 @@
-import api from './apiConfig';
+// src/api/courseApi.js
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:5000/course'; 
 
 const courseApi = {
-  createCourse: (courseData) => api.post('/course/createcourse', courseData),
-  getCourses: () => api.get('/course/getcourses'),
-  getCourseInfo: (id) => api.get(`/course/getspecificcourse/${id}`),
-  editCourse: (id, courseData) => api.patch(`/course/editcourse/${id}`, courseData),
-  updateCourseStatus: (courseId) => api.patch(`/course/updatestatus/${courseId}`),
-  deleteCourseCollection: () => api.delete('/course/deletecoursecollection'),
+  getCourses: () => axios.get(`${BASE_URL}/getcourses`),
+  getCourseInfo: (id) => axios.get(`${BASE_URL}/getcourseinfo/${id}`),
+  createCourse: (courseData) => axios.post(`${BASE_URL}/createcourse`, courseData),
+  editCourse: (id, courseData) => axios.put(`${BASE_URL}/editcourse/${id}`, courseData),
 };
 
 export default courseApi;

@@ -1,38 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './Signup.module.css';
+import adminApi from '../../../api/adminApi';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpSchema = Yup.object().shape({
-  fullName: Yup.string().required('Full name is required'),
+  username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm password is required'),
+    .required('Confirm Password is required'),
 });
 
 const AdminSignUp = () => {
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Handle admin sign up logic here
-    console.log(values);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await adminApi.signup({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      });
+      setSuccess(response.data.message);
+      setError(null);
+      setTimeout(() => {
+        navigate('/admin/login');
+      }, 3000);
+    } catch (error) {
+      setError(error.response?.data || 'An error occurred during signup');
+      setSuccess(null);
+    }
     setSubmitting(false);
   };
 
   return (
     <div className={styles.signUpPage}>
       <h1>Admin Sign Up</h1>
+      {error && <div className={styles.error}>{error}</div>}
+      {success && <div className={styles.success}>{success}</div>}
       <Formik
-        initialValues={{ fullName: '', email: '', password: '', confirmPassword: '' }}
+        initialValues={{ username: '', email: '', password: '', confirmPassword: '' }}
         validationSchema={SignUpSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form className={styles.form}>
             <div className={styles.formGroup}>
-              <label htmlFor="fullName">Full Name</label>
-              <Field type="text" name="fullName" />
-              <ErrorMessage name="fullName" component="div" className={styles.error} />
+              <label htmlFor="username">Username</label>
+              <Field type="text" name="username" />
+              <ErrorMessage name="username" component="div" className={styles.error} />
             </div>
 
             <div className={styles.formGroup}>
