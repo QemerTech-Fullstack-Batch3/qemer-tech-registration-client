@@ -35,32 +35,36 @@
   margin-top: 1rem;
 }
 
-.submitButton, .cancelButton, .viewButton, .editButton {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
+.submitButton, .cancelButton {
+  background-color: white;
+  border: 2px solid;
+  padding: 8px 16px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.submitButton {
+  border-color: #4CAF50;
+  color: #4CAF50;
 }
 
-.submitButton {
+.submitButton:hover {
   background-color: #4CAF50;
   color: white;
 }
 
-.submitButton:hover {
-  background-color: #45a049;
-}
-
 .cancelButton {
-  background-color: #f44336;
-  color: white;
+  border-color: #f44336;
+  color: #f44336;
 }
 
 .cancelButton:hover {
-  background-color: #d32f2f;
+  background-color: #f44336;
+  color: white;
 }
 
 .courseList {
@@ -92,22 +96,43 @@
   gap: 0.5rem;
 }
 
+.viewButton, .editButton {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.viewButton:hover, .editButton:hover {
+  background-color: black;
+  color: white;
+}
+
 .viewButton {
+  border-color: #2196F3;
+  color: #2196F3;
+}
+
+.viewButton:hover {
   background-color: #2196F3;
   color: white;
 }
 
-.viewButton:hover {
-  background-color: #1e88e5;
-}
-
 .editButton {
-  background-color: #FFC107;
-  color: black;
+  border-color: #FFC107;
+  color: #FFC107;
 }
 
 .editButton:hover {
-  background-color: #ffa000;
+  background-color: #FFC107;
+  color: black;
 }
 
 .courseDetails {
