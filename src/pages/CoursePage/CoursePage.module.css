@@ -22,7 +22,7 @@
 
 .courseList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   justify-content: center;
 }
@@ -39,7 +39,9 @@
   max-width: 400px;
   margin: 0 auto;
 }
-
+.courseCard:nth-child(n+4) {
+  margin-top: 2rem;
+}
 .courseCard:hover {
   transform: translateY(-5px);
 }
@@ -87,8 +89,22 @@
   background-color: #0056b3;
 }
 
+@media (max-width: 1200px) {
+  .courseCard:nth-child(n+3) {
+    margin-top: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .courseList {
     grid-template-columns: 1fr;
+  }
+  
+  .courseCard {
+    max-width: 100%;
+  }
+
+  .courseCard:nth-child(n+2) {
+    margin-top: 2rem;
   }
 }
