@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './CourseMangement.module.css'
 import courseApi from '../../../../api/courseApi'
+
 const CourseManagement = ({ userRole }) => {
+  const courseDetailsRef = useRef(null);
+  const formSectionRef = useRef(null);
   const [courses, setCourses] = useState([]);
+
   const [newCourse, setNewCourse] = useState({
     courseName: '',
     duration: '',
@@ -10,17 +14,14 @@ const CourseManagement = ({ userRole }) => {
     price: '',
     learningMode: '',
     courseRegistrationStatus: 'OnRegistration',
-    spotLimit: '',
-    schedule: {
-      startDate: '',
-      endDate: '',
-      dayOfWeek: [],
-      time: ''
-    }
+    spotLimit: ''
   });
+
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isViewingDetails, setIsViewingDetails] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selectedCourseDetails, setSelectedCourseDetails] = useState(null);
 
   useEffect(() => {
     fetchCourses();
@@ -37,31 +38,15 @@ const CourseManagement = ({ userRole }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith('schedule.')) {
-      const scheduleField = name.split('.')[1];
+    if (name === 'learningMode') {
       setNewCourse(prevState => ({
         ...prevState,
-        schedule: {
-          ...prevState.schedule,
-          [scheduleField]: value
-        }
+        [name]: value,
+        spotLimit: value === 'Online' ? '' : prevState.spotLimit
       }));
     } else {
       setNewCourse(prevState => ({ ...prevState, [name]: value }));
     }
-  };
-
-  const handleDayOfWeekChange = (e) => {
-    const { value, checked } = e.target;
-    setNewCourse(prevState => ({
-      ...prevState,
-      schedule: {
-        ...prevState.schedule,
-        dayOfWeek: checked
-          ? [...prevState.schedule.dayOfWeek, value]
-          : prevState.schedule.dayOfWeek.filter(day => day !== value)
-      }
-    }));
   };
 
   const handleSubmit = async (e) => {
@@ -79,17 +64,12 @@ const CourseManagement = ({ userRole }) => {
         price: '',
         learningMode: '',
         courseRegistrationStatus: 'OnRegistration',
-        spotLimit: '',
-        schedule: {
-          startDate: '',
-          endDate: '',
-          dayOfWeek: [],
-          time: ''
-        }
+        spotLimit: ''
       });
       setIsEditing(false);
       setSelectedCourse(null);
       fetchCourses();
+      setShowForm(false);
     } catch (error) {
       console.error('Error saving course:', error);
     }
@@ -98,9 +78,16 @@ const CourseManagement = ({ userRole }) => {
   const handleViewDetails = async (courseId) => {
     try {
       const response = await courseApi.getCourseInfo(courseId);
-      setSelectedCourse(response.data.course);
+      setSelectedCourseDetails(response.data.course);
       setIsViewingDetails(true);
       setIsEditing(false);
+      setShowForm(false);
+      setTimeout(() => {
+        const detailsSection = document.querySelector(`.${styles.courseDetailsContainer}`);
+        if (detailsSection) {
+          detailsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     } catch (error) {
       console.error('Error fetching course details:', error);
     }
@@ -111,17 +98,15 @@ const CourseManagement = ({ userRole }) => {
       const response = await courseApi.getCourseInfo(courseId);
       const courseData = response.data.course;
       setSelectedCourse(courseData);
-      setNewCourse({
-        ...courseData,
-        schedule: response.data.schedule || {
-          startDate: '',
-          endDate: '',
-          dayOfWeek: [],
-          time: ''
-        }
-      });
+      setNewCourse(courseData);
       setIsEditing(true);
-      setIsViewingDetails(false);
+      setShowForm(true);
+      setTimeout(() => {
+        const formSection = document.querySelector(`.${styles.formSection}`);
+        if (formSection) {
+          formSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     } catch (error) {
       console.error('Error fetching course details for editing:', error);
     }
@@ -137,16 +122,36 @@ const CourseManagement = ({ userRole }) => {
       price: '',
       learningMode: '',
       courseRegistrationStatus: 'OnRegistration',
-      spotLimit: '',
-      schedule: {
-        startDate: '',
-        endDate: '',
-        dayOfWeek: [],
-        time: ''
-      }
+      spotLimit: ''
     });
   };
 
+  const handleCreateNewCourse = () => {
+    setIsEditing(false);
+    setNewCourse({
+      courseName: '',
+      duration: '',
+      description: '',
+      price: '',
+      learningMode: '',
+      courseRegistrationStatus: 'OnRegistration',
+      spotLimit: ''
+    });
+    setShowForm(true);
+    setTimeout(() => {
+      const formSection = document.querySelector(`.${styles.formSection}`);
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+
+  const handleCancelForm = () => {
+    setShowForm(false);
+    setIsEditing(false);
+    setSelectedCourse(null);
+  };
   const handleCloseDetails = () => {
     setIsViewingDetails(false);
     setSelectedCourse(null);
@@ -158,142 +163,7 @@ const CourseManagement = ({ userRole }) => {
 
   return (
     <div className={styles.courseManagement}>
-      <div className={styles.formSection}>
-        <h2>{isEditing ? 'Edit Course' : 'Create New Course'}</h2>
-        <form onSubmit={handleSubmit} className={styles.courseForm}>
-          <input
-            name="courseName"
-            value={newCourse.courseName}
-            onChange={handleInputChange}
-            placeholder="Course Name"
-            required
-            className={styles.formInput}
-          />
-          <input
-            name="duration"
-            value={newCourse.duration}
-            onChange={handleInputChange}
-            placeholder="Duration"
-            required
-            className={styles.formInput}
-          />
-          <textarea
-            name="description"
-            value={newCourse.description}
-            onChange={handleInputChange}
-            placeholder="Description"
-            required
-            className={styles.formTextarea}
-          />
-          <input
-            name="price"
-            type="number"
-            value={newCourse.price}
-            onChange={handleInputChange}
-            placeholder="Price"
-            required
-            className={styles.formInput}
-          />
-          <select
-            name="learningMode"
-            value={newCourse.learningMode}
-            onChange={handleInputChange}
-            required
-            className={styles.formSelect}
-          >
-            <option value="">Select Learning Mode</option>
-            <option value="Online">Online</option>
-            <option value="InPerson">In Person</option>
-          </select>
-          <select
-            name="courseRegistrationStatus"
-            value={newCourse.courseRegistrationStatus}
-            onChange={handleInputChange}
-            required
-            className={styles.formSelect}
-          >
-            <option value="OnRegistration">On Registration</option>
-            <option value="OnProgress">On Progress</option>
-            <option value="ended">Ended</option>
-          </select>
-          <input
-            name="spotLimit"
-            type="number"
-            value={newCourse.spotLimit}
-            onChange={handleInputChange}
-            placeholder="Spot Limit"
-            required
-            className={styles.formInput}
-          />
-          <h3>Schedule</h3>
-          <div className={styles.scheduleSection}>
-            <div className={styles.formGroup}>
-              <label htmlFor="schedule.startDate">Start Date:</label>
-              <input
-                id="schedule.startDate"
-                name="schedule.startDate"
-                type="date"
-                value={newCourse.schedule.startDate}
-                onChange={handleInputChange}
-                required
-                className={styles.formInput}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="schedule.endDate">End Date:</label>
-              <input
-                id="schedule.endDate"
-                name="schedule.endDate"
-                type="date"
-                value={newCourse.schedule.endDate}
-                onChange={handleInputChange}
-                required
-                className={styles.formInput}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Days of the Week:</label>
-              <div className={styles.dayOfWeekContainer}>
-                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, index) => (
-                  <div key={day} className={styles.dayOfWeekItem}>
-                    <input
-                      type="checkbox"
-                      id={`day-${index + 1}`}
-                      name="schedule.dayOfWeek"
-                      value={index + 1}
-                      checked={newCourse.schedule.dayOfWeek.includes(String(index + 1))}
-                      onChange={handleDayOfWeekChange}
-                    />
-                    <label htmlFor={`day-${index + 1}`}>{day}</label>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="schedule.time">Time:</label>
-              <input
-                id="schedule.time"
-                name="schedule.time"
-                type="time"
-                value={newCourse.schedule.time}
-                onChange={handleInputChange}
-                required
-                className={styles.formInput}
-              />
-            </div>
-          </div>
-          <div className={styles.formButtons}>
-            <button type="submit" className={styles.submitButton}>
-              {isEditing ? 'Update Course' : 'Add Course'}
-            </button>
-            {isEditing && (
-              <button type="button" onClick={handleCancelEdit} className={styles.cancelButton}>
-                Cancel Edit
-              </button>
-            )}
-          </div>
-        </form>
-      </div>
+      <h2 className={styles.title}>Course Management</h2>
 
       <div className={styles.listSection}>
         <h2>Course List</h2>
@@ -317,30 +187,114 @@ const CourseManagement = ({ userRole }) => {
           ))}
         </ul>
       </div>
-      {isViewingDetails && selectedCourse && (
-        <div className={styles.courseDetails}>
-          <h3>Course Details</h3>
-          <p><strong>Name:</strong> {selectedCourse.courseName}</p>
-          <p><strong>Duration:</strong> {selectedCourse.duration}</p>
-          <p><strong>Description:</strong> {selectedCourse.description}</p>
-          <p><strong>Price:</strong> {selectedCourse.price}</p>
-          <p><strong>Learning Mode:</strong> {selectedCourse.learningMode}</p>
-          <p><strong>Registration Status:</strong> {selectedCourse.courseRegistrationStatus}</p>
-          <p><strong>Spot Limit:</strong> {selectedCourse.spotLimit}</p>
-          {selectedCourse.schedule && (
-            <div>
-              <h4>Schedule</h4>
-              <p><strong>Start Date:</strong> {new Date(selectedCourse.schedule.startDate).toLocaleDateString()}</p>
-              <p><strong>End Date:</strong> {new Date(selectedCourse.schedule.endDate).toLocaleDateString()}</p>
-              <p><strong>Days:</strong> {selectedCourse.schedule.dayOfWeek.map(day => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][day - 1]).join(', ')}</p>
-              <p><strong>Time:</strong> {selectedCourse.schedule.time}</p>
-            </div>
-          )}
-          <button onClick={handleCloseDetails} className={styles.closeButton}>
+
+      {isViewingDetails && selectedCourseDetails && (
+        <div className={styles.courseDetailsContainer}>
+          <h2>Course Details</h2>
+          <div className={styles.courseDetails}>
+            <p><strong>Name:</strong> {selectedCourseDetails.courseName}</p>
+            <p><strong>Duration:</strong> {selectedCourseDetails.duration}</p>
+            <p><strong>Description:</strong> {selectedCourseDetails.description}</p>
+            <p><strong>Price:</strong> {selectedCourseDetails.price}</p>
+            <p><strong>Learning Mode:</strong> {selectedCourseDetails.learningMode}</p>
+            <p><strong>Registration Status:</strong> {selectedCourseDetails.courseRegistrationStatus}</p>
+            <p><strong>Spot Limit:</strong> {selectedCourseDetails.spotLimit}</p>
+          </div>
+          <button onClick={() => setIsViewingDetails(false)} className={styles.closeButton}>
             Close Details
           </button>
         </div>
       )}
+      {!showForm && (
+        <div className={styles.createSection}>
+          <h2>Create New Course</h2>
+          <button onClick={handleCreateNewCourse} className={styles.createButton}>
+            Create New Course
+          </button>
+        </div>
+      )}
+      {showForm && (
+        <div className={styles.formSection}>
+          <h2>{isEditing ? 'Edit Course' : 'Create New Course'}</h2>
+          <form onSubmit={handleSubmit} className={styles.courseForm}>
+            <input
+              name="courseName"
+              value={newCourse.courseName}
+              onChange={handleInputChange}
+              placeholder="Course Name"
+              required
+              className={styles.formInput}
+            />
+            <input
+              name="duration"
+              value={newCourse.duration}
+              onChange={handleInputChange}
+              placeholder="Duration"
+              required
+              className={styles.formInput}
+            />
+            <textarea
+              name="description"
+              value={newCourse.description}
+              onChange={handleInputChange}
+              placeholder="Description"
+              required
+              className={styles.formTextarea}
+            />
+            <input
+              name="price"
+              type="number"
+              value={newCourse.price}
+              onChange={handleInputChange}
+              placeholder="Price"
+              required
+              className={styles.formInput}
+            />
+            <select
+              name="learningMode"
+              value={newCourse.learningMode}
+              onChange={handleInputChange}
+              required
+              className={styles.formSelect}
+            >
+              <option value="">Select Learning Mode</option>
+              <option value="Online">Online</option>
+              <option value="InPerson">In Person</option>
+            </select>
+            <select
+              name="courseRegistrationStatus"
+              value={newCourse.courseRegistrationStatus}
+              onChange={handleInputChange}
+              required
+              className={styles.formSelect}
+            >
+              <option value="OnRegistration">On Registration</option>
+              <option value="OnProgress">On Progress</option>
+              <option value="ended">Ended</option>
+            </select>
+            {newCourse.learningMode === 'InPerson' && (
+              <input
+                name="spotLimit"
+                type="number"
+                value={newCourse.spotLimit}
+                onChange={handleInputChange}
+                placeholder="Spot Limit"
+                required
+                className={styles.formInput}
+              />
+            )}
+            <div className={styles.formButtons}>
+              <button type="submit" className={styles.submitButton}>
+                {isEditing ? 'Update Course' : 'Add Course'}
+              </button>
+              <button type="button" onClick={handleCancelForm} className={styles.cancelButton}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
     </div>
   );
 };

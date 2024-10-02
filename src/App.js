@@ -21,12 +21,12 @@ function App() {
   return (
     <Router>
       <div className={styles.app}>
-      <Header userRole={userRole} setUserRole={setUserRole} />
+        <Header userRole={userRole} setUserRole={setUserRole} />
         <main className={styles.mainContent}>
           <Routes>
             <Route exact path="/" element={<LandingPage />} />
-            <Route path="/courses/:type" element={<CoursePage />} />
-            <Route path="/register/:courseId" element={<RegistrationPage />} />
+            <Route path="/courses/:id" element={<CoursePage />} />
+            <Route path="/register/:programId" element={<RegistrationPage />} />
             <Route path="/admin/*" element={<AdminRoutes setUserRole={setUserRole} />} />
           </Routes>
         </main>

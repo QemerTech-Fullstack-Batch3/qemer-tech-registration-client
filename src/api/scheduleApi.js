@@ -1,11 +1,12 @@
-import api from './apiConfig';
+import api from './apiConfig'
 
 const scheduleApi = {
-  createSchedule: (scheduleData) => api.post('/schedule/createschedule', scheduleData),
   getSchedules: () => api.get('/schedule/getschedules'),
   getSchedule: (id) => api.get(`/schedule/getschedule/${id}`),
   getScheduleOfACourse: (id) => api.get(`/schedule/getscheduleofacourse/${id}`),
-  deleteScheduleCollection: () => api.delete('/schedule/deleteschedulecollection'),
+  createSchedule: (scheduleData) => api.post('/schedule/createschedule', scheduleData),
+  updateSchedule: (id, scheduleData) => api.patch(`/schedule/updateschedule/${id}`, scheduleData),
+  deleteSchedule: (id) => api.delete(`/schedule/deleteschedule/${id}`)
 };
 
 export default scheduleApi;

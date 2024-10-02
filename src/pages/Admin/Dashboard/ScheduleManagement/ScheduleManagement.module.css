@@ -10,6 +10,22 @@
   margin-bottom: 2rem;
 }
 
+.addButton {
+  background-color: #1890ff;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #40a9ff;
+}
+
 .form {
   background-color: #ffffff;
   padding: 2rem;
@@ -43,19 +59,38 @@
   min-height: 100px;
 }
 
-.button {
-  background-color: #1890ff;
-  color: #ffffff;
-  border: none;
+.formButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.submitButton,
+.cancelButton {
   padding: 0.5rem 1rem;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
-.button:hover {
+.submitButton {
+  background-color: #1890ff;
+  color: #ffffff;
+}
+
+.submitButton:hover {
   background-color: #40a9ff;
+}
+
+.cancelButton {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #e8e8e8;
 }
 
 .scheduleList {
@@ -63,37 +98,32 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .scheduleItem {
+  background-color: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.scheduleItem:last-child {
-  border-bottom: none;
+  align-items: flex-start;
 }
 
 .scheduleInfo {
   flex-grow: 1;
 }
 
-.courseName {
-  font-weight: bold;
-  color: #1890ff;
-  margin-bottom: 0.5rem;
-}
-
-.scheduleDetails {
-  color: #666;
-  font-size: 0.9rem;
+.scheduleDetails p {
+  margin: 0.25rem 0;
+  color: #333;
 }
 
 .dayOfWeek {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
@@ -103,5 +133,92 @@
   color: #1890ff;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.scheduleActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.editButton {
+  background-color: #52c41a;
+  color: #ffffff;
+}
+
+.editButton:hover {
+  background-color: #73d13d;
+}
+
+.deleteButton {
+  background-color: #ff4d4f;
+  color: #ffffff;
+}
+
+.deleteButton:hover {
+  background-color: #ff7875;
+}
+
+.formRow {
+  display: flex;
+  gap: 1rem;
+}
+
+.formRow .formGroup {
+  flex: 1;
+}
+
+.courseSchedules {
+  margin-bottom: 2rem;
+}
+
+.dayOfWeekContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dayOfWeekItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dayOfWeekItem input[type="checkbox"] {
+  margin: 0;
+}
+
+.error {
+  color: #ff4d4f;
+  margin-bottom: 1rem;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #1890ff;
+  margin: 2rem 0;
 }
