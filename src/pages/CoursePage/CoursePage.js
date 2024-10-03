@@ -29,6 +29,7 @@ const CoursePage = () => {
   const handleGetStarted = (courseId) => {
     navigate(`/register/${courseId}`);
   };
+  
   if (!packageDetails) {
     return <div>Loading...</div>;
   }

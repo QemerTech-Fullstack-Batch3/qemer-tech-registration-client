@@ -4,7 +4,7 @@ import Header from './components/layout/Header/Header'
 import Footer from './components/layout/Footer/Footer';
 import LandingPage from './pages/LandingPage/LandingPage';
 import CoursePage from './pages/CoursePage/CoursePage';
-import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import RegistrationForm from './pages/RegistrationPage/RegistrationForm'
 import AdminRoutes from './routes/AdminRoutes';
 import styles from './App.module.css';
 
@@ -26,7 +26,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<LandingPage />} />
             <Route path="/courses/:id" element={<CoursePage />} />
-            <Route path="/register/:programId" element={<RegistrationPage />} />
+            <Route path="/register/:courseId" element={<RegistrationForm />} />
             <Route path="/admin/*" element={<AdminRoutes setUserRole={setUserRole} />} />
           </Routes>
         </main>
