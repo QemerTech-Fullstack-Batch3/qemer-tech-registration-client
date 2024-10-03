@@ -4,104 +4,143 @@
   padding: 2rem;
 }
 
-.coursePage h1 {
+.pageTitle {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #1890ff;
-}
-
-.packageDescription {
-  font-size: 1.2rem;
-  color: #666;
+  text-align: center;
   margin-bottom: 2rem;
-}
-
-.coursePage h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .programGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 2rem;
 }
 
 .programCard {
-  background-color: #f8f9fa;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
   border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.5rem 1rem;
+  width: 300px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.programCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.programCard h3 {
-  font-size: 1.5rem;
+.priceGroup {
   margin-bottom: 1rem;
-  color: #1890ff;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e8e8e8;
 }
 
-.courseDescription {
+.infoGroup {
   margin-bottom: 1rem;
-  color: #666;
-  flex-grow: 1;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e8e8e8;
 }
 
-.courseDetails {
+.durationGroup {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   margin-bottom: 1rem;
 }
 
-.courseDetails p {
-  margin-bottom: 0.5rem;
+.courseDuration, .daysPerWeek {
+  font-size: 0.9rem;
   color: #333;
 }
 
-.registrationStatus {
+.coursePrice {
+  font-size: 2rem;
   font-weight: bold;
-  padding: 0.5rem;
-  border-radius: 4px;
-  text-align: center;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.priceSubtext {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+}
+
+.courseName {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.courseDescription {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.75rem;
+  flex-grow: 1;
+}
+
+.courseDuration {
+  font-size: 0.9rem;
+  color: #333;
   margin-bottom: 1rem;
+}
+
+.getStartedBtn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+.courseDuration i {
+  margin-right: 0.5rem;
+}
+.registrationStatus {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .onregistration {
   background-color: #e6f7ff;
   color: #1890ff;
+  border: 1px solid #1890ff;
 }
 
 .closed {
   background-color: #fff1f0;
   color: #f5222d;
+  border: 1px solid #f5222d;
 }
-
-.registerBtn {
-  display: inline-block;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: #1890ff;
+.getStartedBtn {
+  background-color: #1e3a8a;
   color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-  text-align: center;
-  font-weight: bold;
   border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.registerBtn:hover {
-  background-color: #40a9ff;
+.getStartedBtn:hover {
+  background-color: #1e40af;
 }
 
 @media (max-width: 768px) {
   .programGrid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .programCard {
+    width: 100%;
+    max-width: 300px;
   }
 }
