@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styles from './AdminDashboard.module.css';
-import { FaBook, FaUserGraduate, FaCalendarAlt, FaUsersCog } from 'react-icons/fa';
+import { FaBook, FaUserGraduate, FaCalendarAlt, FaUsersCog, FaBoxOpen } from 'react-icons/fa';
 
 import CourseManagement from './CourseManagement/CourseMangement';
 import RegistrationManagement from './RegistrationManagement/RegistrationManagement';
 import ScheduleManagement from './ScheduleManagement/ScheduleManagement';
 import AdminManagement from './AdminManagement/AdminManagement';
+import PackageManagement from './PackageManagement/PackageManagement';
 
 const AdminDashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState('courses');
@@ -18,6 +19,8 @@ const AdminDashboard = ({ userRole }) => {
         return <RegistrationManagement />;
       case 'schedules':
         return <ScheduleManagement />;
+      case 'packages':
+        return <PackageManagement />;
       case 'admins':
         return userRole === 'SuperAdmin' ? <AdminManagement /> : null;
       default:
@@ -42,6 +45,11 @@ const AdminDashboard = ({ userRole }) => {
           <li className={activeTab === 'schedules' ? styles.active : ''}>
             <button onClick={() => setActiveTab('schedules')}>
               <FaCalendarAlt /> Schedules
+            </button>
+          </li>
+          <li className={activeTab === 'packages' ? styles.active : ''}>
+            <button onClick={() => setActiveTab('packages')}>
+              <FaBoxOpen /> Packages
             </button>
           </li>
           {userRole === 'SuperAdmin' && (

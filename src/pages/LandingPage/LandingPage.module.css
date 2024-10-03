@@ -48,14 +48,14 @@
   text-align: center;
 }
 
-.courseGrid {
+.packageGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  row-gap: 4rem;
+  row-gap: 5rem;
 }
 
-.courseCard {
+.packageCard {
   background-color: #f8f9fa;
   border-radius: 8px;
   padding: 1.5rem;
@@ -64,43 +64,50 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-width: 350px;
+  margin: 0 auto;
 }
 
-.courseCard:hover {
+.packageCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.courseCard h3 {
+.packageCard h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  color: #1890ff;
 }
 
-.courseInfo {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
+.packageCard h4 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
-.courseDescription {
+.packageDescription {
   margin-bottom: 1rem;
   color: #666;
   flex-grow: 1;
 }
 
-.courseDetails {
-  display: flex;
-  justify-content: space-between;
+.courseList {
+  list-style-type: none;
+  padding-left: 0;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
-  color: #333;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.courseDetails span {
-  display: inline-block;
-  background-color: #e9ecef;
+.courseList li {
+  background-color: #e6f7ff;
+  color: #1890ff;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
+  font-size: 0.9rem;
 }
 
 .getStartedBtn {
@@ -108,7 +115,7 @@
   width: 90%;
   margin: 0 auto;
   padding: 0.75rem 1rem;
-  background-color: #007bff;
+  background-color: #1890ff;
   color: white;
   text-decoration: none;
   border-radius: 4px;
@@ -118,9 +125,8 @@
 }
 
 .getStartedBtn:hover {
-  background-color: #0056b3;
+  background-color: #40a9ff;
 }
-
 
 @media (max-width: 768px) {
   .hero {
@@ -133,7 +139,7 @@
     margin-bottom: 2rem;
   }
 
-  .courseGrid {
+  .packageGrid {
     grid-template-columns: 1fr;
   }
 }

@@ -2,56 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './LandingPage.module.css';
 import hero from '../../assets/hero.jpg';
-import courseApi from '../../api/courseApi';
+import packageApi from '../../api/packageApi';
 import ContactUs from '../../components/common/ContactUs';
 
 const LandingPage = () => {
-  const [courses, setCourses] = useState([]);
+  const [packages, setPackages] = useState([]);
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await courseApi.getCourses();
-        setCourses(response.data);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-    fetchCourses();
+    fetchPackages();
   }, []);
+
+  const fetchPackages = async () => {
+    try {
+      const response = await packageApi.getPackages();
+      setPackages(response.data);
+    } catch (error) {
+      console.error('Error fetching packages:', error);
+    }
+  };
 
   return (
     <div className={styles.landingPage}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1>Welcome to Qemer</h1>
-          <p>Empowering students with quality education</p>
+          <h1>Welcome to Qemer Tech</h1>
+          <p>Empowering your future through technology</p>
         </div>
         <div className={styles.heroImage}>
-          {/* <img src={hero} alt="Hero" /> */}
+          {/* <img src={hero} alt="Qemer Tech" /> */}
         </div>
       </section>
 
       <section className={styles.ourServices}>
         <h2>Our Services</h2>
-        <div className={styles.courseGrid}>
-          {courses.map((course) => (
-            <div key={course._id} className={styles.courseCard}>
-              <h3>{course.courseName}</h3>
-              <div className={styles.courseInfo}>
-                <p className={styles.courseDescription}>{course.description}</p>
-                <div className={styles.courseDetails}>
-                  <span><strong>Duration:</strong> {course.duration}</span>
-                  <span><strong>Status:</strong> {course.courseRegistrationStatus}</span>
-                </div>
-              </div>
-              <Link to={`/courses/${course._id}`} className={styles.getStartedBtn}>
+        <div className={styles.packageGrid}>
+          {packages.map(pkg => (
+            <div key={pkg._id} className={styles.packageCard}>
+              <h3>{pkg.packageName}</h3>
+              <p className={styles.packageDescription}>{pkg.description}</p>
+              <Link to={`/courses/${pkg._id}`} className={styles.getStartedBtn}>
                 Get Started
               </Link>
             </div>
           ))}
         </div>
       </section>
+
       <ContactUs />
     </div>
   );

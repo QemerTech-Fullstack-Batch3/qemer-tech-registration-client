@@ -1,0 +1,209 @@
+.packageManagement {
+  padding: 2rem;
+  background-color: #f0f2f5;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 2rem;
+  color: #1890ff;
+  margin-bottom: 2rem;
+}
+
+.packageForm {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.select[multiple] {
+  height: auto;
+  min-height: 100px;
+}
+
+.formButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.submitButton,
+.cancelButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton {
+  background-color: #1890ff;
+  color: #ffffff;
+}
+
+.submitButton:hover {
+  background-color: #40a9ff;
+}
+
+.cancelButton {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.cancelButton:hover {
+  background-color: #e8e8e8;
+}
+
+.packageList {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.packageItem {
+  background-color: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.packageItem h4 {
+  margin: 0 0 0.5rem 0;
+  color: #1890ff;
+}
+
+.packageItem p {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.packageItem h5 {
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.packageItem ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.packageItem li {
+  color: #666;
+}
+
+.editButton {
+  background-color: #52c41a;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.editButton:hover {
+  background-color: #73d13d;
+}
+.checkboxGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.checkboxLabel:hover {
+  background-color: #e6f7ff;
+}
+
+.checkbox {
+  margin-right: 10px;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #1890ff;
+  border-radius: 3px;
+  outline: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.checkbox:checked {
+  background-color: #1890ff;
+}
+
+.checkbox:checked::after {
+  content: '\2714';
+  font-size: 14px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkboxLabel span {
+  flex-grow: 1;
+}
+.deleteButton {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.deleteButton:hover {
+  background-color: #ff1a1a;
+}
