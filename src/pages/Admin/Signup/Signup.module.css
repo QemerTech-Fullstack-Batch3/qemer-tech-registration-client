@@ -1,41 +1,48 @@
-.signUpPage {
-  max-width: 400px;
-  margin: 2rem auto;
+.signupContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.signupForm {
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: -4rem;
   padding: 2rem;
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
 }
 
-.formGroup {
+.inputGroup {
   margin-bottom: 1rem;
 }
 
-.formGroup label {
+.inputGroup label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
-.formGroup input {
+.inputGroup input {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.error {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-button {
+.submitButton {
   background-color: #007bff;
   color: white;
   border: none;
@@ -44,13 +51,35 @@ button {
   cursor: pointer;
   font-size: 1rem;
   margin-top: 1rem;
+  width: 100%;
 }
 
-button:hover {
+.submitButton:hover {
   background-color: #0056b3;
 }
 
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.success {
+  color: #28a745;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.loginLink {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.loginLink a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.loginLink a:hover {
+  text-decoration: underline;
 }

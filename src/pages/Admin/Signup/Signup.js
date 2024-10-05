@@ -1,85 +1,103 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import styles from './Signup.module.css';
+import { useNavigate, Link } from 'react-router-dom';
 import adminApi from '../../../api/adminApi';
-import { useNavigate } from 'react-router-dom';
-
-const SignUpSchema = Yup.object().shape({
-  username: Yup.string().required('Username is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
-});
+import styles from './Signup.module.css';
 
 const AdminSignUp = () => {
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
       const response = await adminApi.signup({
-        username: values.username,
-        email: values.email,
-        password: values.password,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
       });
       setSuccess(response.data.message);
-      setError(null);
       setTimeout(() => {
         navigate('/admin/login');
       }, 3000);
     } catch (error) {
       setError(error.response?.data || 'An error occurred during signup');
-      setSuccess(null);
     }
-    setSubmitting(false);
   };
 
   return (
-    <div className={styles.signUpPage}>
-      <h1>Admin Sign Up</h1>
-      {error && <div className={styles.error}>{error}</div>}
-      {success && <div className={styles.success}>{success}</div>}
-      <Formik
-        initialValues={{ username: '', email: '', password: '', confirmPassword: '' }}
-        validationSchema={SignUpSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form className={styles.form}>
-            <div className={styles.formGroup}>
-              <label htmlFor="username">Username</label>
-              <Field type="text" name="username" />
-              <ErrorMessage name="username" component="div" className={styles.error} />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="email">Email</label>
-              <Field type="email" name="email" />
-              <ErrorMessage name="email" component="div" className={styles.error} />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="password">Password</label>
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" className={styles.error} />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <Field type="password" name="confirmPassword" />
-              <ErrorMessage name="confirmPassword" component="div" className={styles.error} />
-            </div>
-
-            <button type="submit" disabled={isSubmitting}>
-              Sign Up
-            </button>
-          </Form>
-        )}
-      </Formik>
+    <div className={styles.signupContainer}>
+      <form className={styles.signupForm} onSubmit={handleSubmit}>
+        <h2>Admin Sign Up</h2>
+        {error && <div className={styles.error}>{error}</div>}
+        {success && <div className={styles.success}>{success}</div>}
+        <div className={styles.inputGroup}>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className={styles.submitButton}>Sign Up</button>
+        <div className={styles.loginLink}>
+          Already have an account? <Link to="/admin/login">Sign in</Link>
+        </div>
+      </form>
     </div>
   );
 };

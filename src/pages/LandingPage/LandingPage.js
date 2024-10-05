@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './LandingPage.module.css';
-import hero from '../../assets/hero.jpg';
+import hero from '../../assets/hero2.jpg';
 import packageApi from '../../api/packageApi';
 import ContactUs from '../../components/common/ContactUs';
 
@@ -25,11 +25,11 @@ const LandingPage = () => {
     <div className={styles.landingPage}>
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <h1>Welcome to Qemer Tech</h1>
+          <h1>Welcome to Qemer Software technology</h1>
           <p>Empowering your future through technology</p>
         </div>
         <div className={styles.heroImage}>
-          {/* <img src={hero} alt="Qemer Tech" /> */}
+          <img src={hero} alt="Qemer Tech" />
         </div>
       </section>
 

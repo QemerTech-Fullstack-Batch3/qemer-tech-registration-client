@@ -40,6 +40,7 @@
 
 .ourServices {
   margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .ourServices h2 {
@@ -49,10 +50,16 @@
 }
 
 .packageGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
-  row-gap: 5rem;
+}
+
+.packageCard {
+  flex: 0 1 300px;
+  max-width: 350px;
+  margin-bottom: 2rem;
 }
 
 .packageCard {
@@ -68,64 +75,160 @@
   margin: 0 auto;
 }
 
+.packageCard {
+  background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1), 0 5px 15px rgba(0,123,255,0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,123,255,0.1);
+}
+
+.packageCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0,123,255,0.1), rgba(0,123,255,0));
+  z-index: 1;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
 .packageCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 10px 20px rgba(0,123,255,0.1);
+}
+
+.packageCard:hover::before {
+  opacity: 1;
 }
 
 .packageCard h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #1890ff;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #0056b3;
+  position: relative;
+  z-index: 2;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.packageCard h3::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50px;
+  height: 4px;
+  background: linear-gradient(90deg, #0056b3, #00a0ff);
+  transition: width 0.3s ease;
+}
+
+.packageCard:hover h3::after {
+  width: 100%;
 }
 
 .packageCard h4 {
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
   color: #333;
+  z-index: 2;
+  font-weight: 600;
 }
 
 .packageDescription {
-  margin-bottom: 1rem;
-  color: #666;
+  margin-bottom: 1.5rem;
+  color: #555;
   flex-grow: 1;
+  font-size: 1rem;
+  line-height: 1.5;
+  z-index: 2;
+  position: relative;
 }
 
 .courseList {
   list-style-type: none;
   padding-left: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
+  justify-content: flex-start;
+  gap: 1rem;
+  z-index: 2;
 }
 
 .courseList li {
-  background-color: #e6f7ff;
-  color: #1890ff;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  background-color: rgba(0,123,255,0.1);
+  color: #0056b3;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,123,255,0.2);
+}
+
+.courseList li:hover {
+  background-color: #0056b3;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,123,255,0.4);
 }
 
 .getStartedBtn {
-  display: block;
-  width: 90%;
-  margin: 0 auto;
-  padding: 0.75rem 1rem;
-  background-color: #1890ff;
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #0056b3, #00a0ff);
   color: white;
   text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  border-radius: 50px;
+  transition: all 0.3s ease;
   text-align: center;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  align-self: center;
+  margin-top: auto;
+  z-index: 2;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+}
+
+.getStartedBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #00a0ff, #0056b3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.getStartedBtn:hover::before {
+  opacity: 1;
+}
+
+.getStartedBtn span {
+  position: relative;
+  z-index: 1;
 }
 
 .getStartedBtn:hover {
-  background-color: #40a9ff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,123,255,0.4);
 }
 
 @media (max-width: 768px) {

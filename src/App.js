@@ -21,16 +21,25 @@ function App() {
   return (
     <Router>
       <div className={styles.app}>
-        <Header userRole={userRole} setUserRole={setUserRole} />
-        <main className={styles.mainContent}>
-          <Routes>
-            <Route exact path="/" element={<LandingPage />} />
-            <Route path="/courses/:id" element={<CoursePage />} />
-            <Route path="/register/:courseId" element={<RegistrationForm />} />
-            <Route path="/admin/*" element={<AdminRoutes setUserRole={setUserRole} />} />
-          </Routes>
-        </main>
-        <Footer />
+        <Routes>
+          <Route path="/admin/*" element={<AdminRoutes setUserRole={setUserRole} />} />
+          <Route
+            path="*"
+            element={
+              <>
+                <Header userRole={userRole} setUserRole={setUserRole} />
+                <main className={styles.mainContent}>
+                  <Routes>
+                    <Route exact path="/" element={<LandingPage />} />
+                    <Route path="/courses/:id" element={<CoursePage />} />
+                    <Route path="/register/:courseId" element={<RegistrationForm />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );

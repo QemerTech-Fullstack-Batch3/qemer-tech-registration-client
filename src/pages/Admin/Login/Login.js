@@ -10,7 +10,7 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-const AdminLogin = ({ setUserRole }) => {
+const AdminLogin = ({ setUserRole, showNavLinks}) => {
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
 
