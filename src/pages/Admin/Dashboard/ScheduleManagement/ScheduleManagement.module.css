@@ -11,19 +11,22 @@
 }
 
 .addButton {
-  background-color: #1890ff;
-  color: #ffffff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  background-color: white;
+  border: 2px solid #4CAF50;
+  color: #4CAF50;
+  padding: 8px 16px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .addButton:hover {
-  background-color: #40a9ff;
+  background-color: #4CAF50;
+  color: white;
 }
 
 .form {

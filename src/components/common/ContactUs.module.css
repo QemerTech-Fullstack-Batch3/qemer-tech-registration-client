@@ -1,51 +1,99 @@
 .contactUs {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 4rem auto;
+  display: flex;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contactInfo {
+  flex: 1;
   padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contactInfo h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.contactInfo p {
+  color: #555;
+  margin-bottom: 1rem;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  padding: 2rem;
+  background-color: white;
 }
 
 .formGroup {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .formGroup input,
 .formGroup textarea {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #3498db;
 }
 
 .formGroup textarea {
-  height: 150px;
+  min-height: 100px;
+  resize: vertical;
 }
 
 .error {
-  color: red;
-  font-size: 0.8rem;
+  color: #e74c3c;
+  font-size: 0.875rem;
   margin-top: 0.25rem;
 }
 
-button {
-  background-color: #007bff;
+button[type="submit"] {
+  background-color: #3498db;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
 }
 
-button:hover {
-  background-color: #0056b3;
+button[type="submit"]:hover {
+  background-color: #2980b9;
 }
 
-button:disabled {
-  background-color: #cccccc;
+button[type="submit"]:disabled {
+  background-color: #bdc3c7;
   cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .contactUs {
+    flex-direction: column;
+  }
+  
+  .contactInfo,
+  .form {
+    padding: 1.5rem;
+  }
 }

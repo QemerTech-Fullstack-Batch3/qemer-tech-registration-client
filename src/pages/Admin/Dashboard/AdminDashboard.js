@@ -30,42 +30,42 @@ const AdminDashboard = ({ userRole }) => {
 
   return (
     <div className={styles.adminDashboard}>
-      <nav className={styles.sidebar}>
-        <ul>
-          <li className={activeTab === 'courses' ? styles.active : ''}>
-            <button onClick={() => setActiveTab('courses')}>
-              <FaBook /> Courses
-            </button>
-          </li>
-          <li className={activeTab === 'registrations' ? styles.active : ''}>
-            <button onClick={() => setActiveTab('registrations')}>
-              <FaUserGraduate /> Registrations
-            </button>
-          </li>
-          <li className={activeTab === 'schedules' ? styles.active : ''}>
-            <button onClick={() => setActiveTab('schedules')}>
-              <FaCalendarAlt /> Schedules
-            </button>
-          </li>
-          <li className={activeTab === 'packages' ? styles.active : ''}>
-            <button onClick={() => setActiveTab('packages')}>
-              <FaBoxOpen /> Packages
-            </button>
-          </li>
-          {userRole === 'SuperAdmin' && (
-            <li className={activeTab === 'admins' ? styles.active : ''}>
-              <button onClick={() => setActiveTab('admins')}>
-                <FaUsersCog /> Admin Management
+        <nav className={styles.sidebar}>
+          <ul>
+            <li className={activeTab === 'courses' ? styles.active : ''}>
+              <button onClick={() => setActiveTab('courses')}>
+                <FaBook /> Courses
               </button>
             </li>
-          )}
-        </ul>
-      </nav>
-      <main className={styles.content}>
-        {renderContent()}
-      </main>
-    </div>
-  );
+            <li className={activeTab === 'registrations' ? styles.active : ''}>
+              <button onClick={() => setActiveTab('registrations')}>
+                <FaUserGraduate /> Registrations
+              </button>
+            </li>
+            <li className={activeTab === 'schedules' ? styles.active : ''}>
+              <button onClick={() => setActiveTab('schedules')}>
+                <FaCalendarAlt /> Schedules
+              </button>
+            </li>
+            <li className={activeTab === 'packages' ? styles.active : ''}>
+              <button onClick={() => setActiveTab('packages')}>
+                <FaBoxOpen /> Packages
+              </button>
+            </li>
+            {userRole === 'SuperAdmin' && (
+              <li className={activeTab === 'admins' ? styles.active : ''}>
+                <button onClick={() => setActiveTab('admins')}>
+                  <FaUsersCog /> Admin Management
+                </button>
+              </li>
+            )}
+          </ul>
+        </nav>
+        <main className={styles.content}>
+          {renderContent()}
+        </main>
+      </div>
+      );
 };
 
-export default AdminDashboard;
+      export default AdminDashboard;

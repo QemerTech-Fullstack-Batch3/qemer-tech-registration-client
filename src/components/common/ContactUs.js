@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './ContactUs.module.css';
+import emailjs from '@emailjs/browser';
 
 const ContactSchema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
@@ -12,24 +13,41 @@ const ContactSchema = Yup.object().shape({
 });
 
 const ContactUs = () => {
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    // Here you would typically send the form data to your backend
-    console.log(values);
-    alert('Message sent successfully!');
-    setSubmitting(false);
-    resetForm();
+  const form = useRef();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (values, { resetForm }) => {
+    setIsSubmitting(true);
+    try {
+      await emailjs.sendForm(
+        'service_y77h9i4',
+        'template_6gq9mnx',
+        form.current,
+        'qhddpVD9ME8bDvbde'
+      );
+      alert('Message sent successfully!');
+      resetForm();
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className={styles.contactUs} id="contact-us">
-      <h2>Contact Us</h2>
+      <div className={styles.contactInfo}>
+        <h2>Contact Us</h2>
+        <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+      </div>
       <Formik
         initialValues={{ firstName: '', lastName: '', email: '', phone: '', message: '' }}
         validationSchema={ContactSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
-          <Form className={styles.form}>
+        {() => (
+          <Form ref={form} className={styles.form}>
             <div className={styles.formGroup}>
               <Field type="text" name="firstName" placeholder="First Name" />
               <ErrorMessage name="firstName" component="div" className={styles.error} />
@@ -51,7 +69,7 @@ const ContactUs = () => {
               <ErrorMessage name="message" component="div" className={styles.error} />
             </div>
             <button type="submit" disabled={isSubmitting}>
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </Form>
         )}

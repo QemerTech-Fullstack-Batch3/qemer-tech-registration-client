@@ -13,7 +13,7 @@ const RegistrationForm = () => {
     gender: '',
     phone: '',
     havePc: '',
-    cityOfResidence: '',
+    CityOfResidence: '',
   });
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState(null);
@@ -133,11 +133,11 @@ const RegistrationForm = () => {
             </div>
             {course.learningMode === 'InPerson' && (
               <div className={styles.formGroup}>
-                <label htmlFor="cityOfResidence">City of Residence</label>
+                <label htmlFor="CityOfResidence">City of Residence</label>
                 <select
-                  id="cityOfResidence"
-                  name="cityOfResidence"
-                  value={formData.cityOfResidence}
+                  id="CityOfResidence"
+                  name="CityOfResidence"
+                  value={formData.CityOfResidence}
                   onChange={handleInputChange}
                   required
                 >

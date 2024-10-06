@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './RegistrationManagement.module.css';
 import registrationApi from '../../../../api/registrationApi';
 import courseApi from '../../../../api/courseApi';
@@ -8,6 +8,8 @@ const RegistrationManagement = () => {
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [isViewingDetails, setIsViewingDetails] = useState(false);
 
+  const detailsSectionRef = useRef(null);
+
   useEffect(() => {
     fetchRegistrations();
   }, []);
@@ -15,6 +17,7 @@ const RegistrationManagement = () => {
   const fetchRegistrations = async () => {
     try {
       const response = await registrationApi.getRegisters();
+      console.log(response.data)
       const registrationsWithCourses = await Promise.all(
         response.data.map(async (registration) => {
           const courseResponse = await courseApi.getCourseInfo(registration.courseId);
@@ -30,6 +33,11 @@ const RegistrationManagement = () => {
   const handleViewDetails = (registration) => {
     setSelectedRegistration(registration);
     setIsViewingDetails(true);
+    setTimeout(() => {
+      if (detailsSectionRef.current) {
+        detailsSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const handleCloseDetails = () => {
@@ -88,7 +96,7 @@ const RegistrationManagement = () => {
       </div>
 
       {isViewingDetails && selectedRegistration && (
-        <div className={styles.detailsSection}>
+        <div className={styles.detailsSection} ref={detailsSectionRef}>
           <h3>Registration Details</h3>
           <button onClick={handleCloseDetails} className={styles.closeButton}>Close</button>
           <div className={styles.detailsContent}>

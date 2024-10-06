@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './CoursePage.module.css';
 import packageApi from '../../api/packageApi';
+import scheduleApi from '../../api/scheduleApi';
 
 const CoursePage = () => {
-  const [packageDetails, setPackageDetails] = useState(null);
+  const [packageDetails, setPackageDetails] = useState(null)
+  const [schedules, setSchedules] = useState({})
   const { id } = useParams();
 
   useEffect(() => {
@@ -12,6 +14,17 @@ const CoursePage = () => {
       try {
         const response = await packageApi.getPackageById(id);
         setPackageDetails(response.data);
+
+        // Fetch schedules for all courses in the package
+        const schedulePromises = response.data.courses.map(course =>
+          scheduleApi.getScheduleOfACourse(course._id)
+        );
+        const scheduleResponses = await Promise.all(schedulePromises);
+        const scheduleData = {};
+        scheduleResponses.forEach((response, index) => {
+          scheduleData[response.data.courseId] = response.data;
+        });
+        setSchedules(scheduleData);
       } catch (error) {
         console.error('Error fetching package details:', error);
       }
@@ -20,16 +33,17 @@ const CoursePage = () => {
     fetchPackageDetails();
   }, [id]);
 
-  const countDaysPerWeek = (daysOfWeek) => {
-    if (!daysOfWeek || !Array.isArray(daysOfWeek)) return 'N/A';
-    return daysOfWeek.filter(day => day.isSelected).length || 'N/A';
+  const countDaysPerWeek = (courseId) => {
+    const schedule = schedules[courseId];
+    if (!schedule || !schedule.dayOfWeek) return 'N/A';
+    return schedule.dayOfWeek.length;
   };
   const navigate = useNavigate();
 
   const handleGetStarted = (courseId) => {
     navigate(`/register/${courseId}`);
   };
-  
+
   if (!packageDetails) {
     return <div>Loading...</div>;
   }
@@ -39,6 +53,7 @@ const CoursePage = () => {
       <h1 className={styles.pageTitle}>{packageDetails.packageName}</h1>
       <p className={styles.packageDescription}>{packageDetails.description}</p>
       <h2 className={styles.packageTitle}>{packageDetails.packageName} packages:</h2>
+
       <div className={styles.programGrid}>
         {packageDetails.courses.map(course => (
           <div key={course._id} className={styles.programCard}>
@@ -51,10 +66,18 @@ const CoursePage = () => {
               <p className={styles.courseDescription}>{course.description}</p>
               <div className={styles.durationGroup}>
                 <p className={styles.courseDuration}>
-                  <i className="fas fa-clock"></i> {course.duration}
+                  <i className="fas fa-clock"></i>
+                  <span className={styles.numberHighlight}>
+                    {course.duration.split(' ')[0]}
+                  </span>
+                  {course.duration.split(' ').slice(1).join(' ')}
                 </p>
                 <p className={styles.daysPerWeek}>
-                  <i className="fas fa-calendar-alt"></i> {countDaysPerWeek(course.daysOfWeek)} days/week
+                  <i className="fas fa-calendar-alt"></i>
+                  <span className={styles.numberHighlight}>
+                    {countDaysPerWeek(course._id)}
+                  </span>
+                  days per week
                 </p>
               </div>
             </div>

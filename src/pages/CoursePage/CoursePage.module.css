@@ -114,6 +114,22 @@
 .courseDuration, .daysPerWeek {
   font-size: 0.8rem;
   color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.numberHighlight {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #4285F4;
+  margin-right: 4px;
+  background-color: #E8F0FE;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .coursePrice {

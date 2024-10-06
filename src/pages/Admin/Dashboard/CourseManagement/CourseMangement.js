@@ -201,7 +201,7 @@ const CourseManagement = ({ userRole }) => {
             <p><strong>Spot Limit:</strong> {selectedCourseDetails.spotLimit}</p>
           </div>
           <button onClick={() => setIsViewingDetails(false)} className={styles.closeButton}>
-            Close Details
+            Close
           </button>
         </div>
       )}
