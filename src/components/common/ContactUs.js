@@ -5,10 +5,8 @@ import styles from './ContactUs.module.css';
 import emailjs from '@emailjs/browser';
 
 const ContactSchema = Yup.object().shape({
-  firstName: Yup.string().required('First name is required'),
-  lastName: Yup.string().required('Last name is required'),
-  email: Yup.string().email('Invalid email').required('Email is required'),
-  phone: Yup.string().required('Phone number is required'),
+  user_name: Yup.string().required('Full name is required'),
+  user_email: Yup.string().email('Invalid email').required('Email is required'),
   message: Yup.string().required('Message is required'),
 });
 
@@ -21,9 +19,10 @@ const ContactUs = () => {
     try {
       await emailjs.sendForm(
         'service_y77h9i4',
-        'template_6gq9mnx',
-        form.current,
-        'qhddpVD9ME8bDvbde'
+        'template_s4dbzth',
+        form.current,{
+          publicKey: '0k8ZpPT0X_t-H7xFP'
+        }
       );
       alert('Message sent successfully!');
       resetForm();
@@ -42,28 +41,24 @@ const ContactUs = () => {
         <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
       </div>
       <Formik
-        initialValues={{ firstName: '', lastName: '', email: '', phone: '', message: '' }}
+        initialValues={{ user_name: '', user_email: '', message: '' }}
         validationSchema={ContactSchema}
         onSubmit={handleSubmit}
       >
         {() => (
           <Form ref={form} className={styles.form}>
             <div className={styles.formGroup}>
-              <Field type="text" name="firstName" placeholder="First Name" />
-              <ErrorMessage name="firstName" component="div" className={styles.error} />
+              <Field type="text" name="user_name" placeholder="Full Name" />
+              <ErrorMessage name="user_name" component="div" className={styles.error} />
             </div>
             <div className={styles.formGroup}>
-              <Field type="text" name="lastName" placeholder="Last Name" />
-              <ErrorMessage name="lastName" component="div" className={styles.error} />
+              <Field type="email" name="user_email" placeholder="Email" />
+              <ErrorMessage name="user_email" component="div" className={styles.error} />
             </div>
-            <div className={styles.formGroup}>
-              <Field type="email" name="email" placeholder="Email" />
-              <ErrorMessage name="email" component="div" className={styles.error} />
-            </div>
-            <div className={styles.formGroup}>
+            {/* <div className={styles.formGroup}>
               <Field type="tel" name="phone" placeholder="Phone Number" />
               <ErrorMessage name="phone" component="div" className={styles.error} />
-            </div>
+            </div> */}
             <div className={styles.formGroup}>
               <Field as="textarea" name="message" placeholder="Your Message" />
               <ErrorMessage name="message" component="div" className={styles.error} />
@@ -79,3 +74,4 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
