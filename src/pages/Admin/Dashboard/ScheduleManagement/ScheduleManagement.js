@@ -3,7 +3,6 @@ import courseApi from '../../../../api/courseApi';
 import scheduleApi from '../../../../api/scheduleApi';
 import styles from './ScheduleManagement.module.css';
 import { groupBy } from 'lodash';
-
 const ScheduleManagement = () => {
   const [schedules, setSchedules] = useState([]);
   const [newSchedule, setNewSchedule] = useState({
@@ -180,10 +179,6 @@ const ScheduleManagement = () => {
     }
     return day;
   };
-
-  if (loading) {
-    return <div className={styles.loading}>Loading...</div>;
-  }
 
   return (
     <div className={styles.scheduleManagement}>

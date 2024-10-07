@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './RegistrationForm.module.css';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import courseApi from '../../api/courseApi';
 import registrationApi from '../../api/registrationApi';
 
@@ -45,6 +46,9 @@ const RegistrationForm = () => {
     setError(null);
     try {
       const registrationData = { ...formData, courseId };
+      if (course.learningMode !== 'InPerson') {
+        delete registrationData.CityOfResidence;
+      }
       const response = await registrationApi.registerForCourse(registrationData);
       setSuccessMessage(response.data.data);
     } catch (error) {
@@ -66,7 +70,7 @@ const RegistrationForm = () => {
   );
 
   if (!course) {
-    return <div className={styles.loading}>Loading...</div>;
+    return <LoadingSpinner />;  
   }
 
   return (

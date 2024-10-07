@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AdminManagement.module.css';
 import adminApi from '../../../../api/adminApi';
+import LoadingSpinner from '../../../../components/common/LoadingSpinner';
 
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
@@ -34,7 +35,9 @@ const AdminManagement = () => {
       console.error('Error assigning role:', error);
     }
   };
-
+  if(!admins || !registrars || !pendingUsers){
+    return <LoadingSpinner />
+  }
   return (
     <div className={styles.adminManagement}>
       <h2 className={styles.title}>Admin Management</h2>

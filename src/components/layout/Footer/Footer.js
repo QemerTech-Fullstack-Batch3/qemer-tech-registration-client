@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
 import styles from './Footer.module.css';
 
 const Footer = () => {
@@ -14,7 +15,8 @@ const Footer = () => {
           <h3>Quick Links</h3>
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/contact">Contact Us</Link></li>
+            <li><ScrollLink to="contact-us" smooth={true} duration={500}>Contact Us</ScrollLink>
+            </li>
           </ul>
         </div>
         <div className={styles.footerSection}>

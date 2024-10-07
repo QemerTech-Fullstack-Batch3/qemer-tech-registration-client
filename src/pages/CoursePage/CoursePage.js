@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './CoursePage.module.css';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
 import packageApi from '../../api/packageApi';
 import scheduleApi from '../../api/scheduleApi';
 
@@ -45,7 +46,7 @@ const CoursePage = () => {
   };
 
   if (!packageDetails) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
