@@ -24,7 +24,7 @@
   border-radius: 12px;
   padding: 1.5rem;
   width: 280px;
-  height: 450px;
+  height: 480px; /* Increased from 450px to 480px */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,20 +95,13 @@
 }
 
 .infoGroup {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e8e8e8;
-  width: 100%;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 0.75rem;
 }
 
 .durationGroup {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  margin-top: auto;
+  margin-bottom: 0.5rem;
 }
 
 .courseDuration, .daysPerWeek {
@@ -161,20 +154,49 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+.dateGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -0.3rem;
+  margin-top: -0.2rem;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
 
+.dateInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.dateInfo i {
+  margin-right: 4px;
+  color: #007bff;
+}
+.dateLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 0.2rem;
+}
+
+.dateValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e40af;
+}
 .registrationStatus {
   font-size: 0.75rem;
   font-weight: bold;
   padding: 0.3rem 0.6rem;
   border-radius: 20px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   width: auto;
   display: inline-block;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
 }
 
 .registrationStatus::before {
@@ -210,6 +232,8 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+
 @media (max-width: 768px) {
   .programGrid {
     flex-direction: column;

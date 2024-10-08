@@ -49,8 +49,11 @@ const RegistrationForm = () => {
       if (course.learningMode !== 'InPerson') {
         delete registrationData.CityOfResidence;
       }
-      const response = await registrationApi.registerForCourse(registrationData);
-      setSuccessMessage(response.data.data);
+      const response = await registrationApi.createRegistration({
+        ...formData,
+        courseId: courseId,
+  
+      });      setSuccessMessage(response.data.data);
     } catch (error) {
       console.error('Error registering for course: ', error);
       setError('An error occurred while registering. Please try again.');

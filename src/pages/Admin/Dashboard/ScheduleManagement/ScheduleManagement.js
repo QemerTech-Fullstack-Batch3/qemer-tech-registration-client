@@ -257,7 +257,7 @@ const ScheduleManagement = () => {
               <label className={styles.label}>Days of the Week:</label>
               <div className={styles.dayOfWeekContainer}>
                 {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, index) => (
-                  <div key={day} className={styles.dayOfWeekItem}>
+                  <div key={day} className={styles.dayOfWeekItem}>  
                     <input
                       type="checkbox"
                       id={`day-${index + 1}`}

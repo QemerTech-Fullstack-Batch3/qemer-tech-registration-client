@@ -12,9 +12,13 @@ const CourseManagement = ({ userRole }) => {
     duration: '',
     description: '',
     price: '',
+    courseRegistrationStatus: 'On Registration',
     learningMode: '',
-    courseRegistrationStatus: 'OnRegistration',
-    spotLimit: ''
+    spotLimit: '',
+    startDate: '',
+    endDate: '',
+    dayOfWeek: [],
+    time: ''
   });
 
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -52,26 +56,33 @@ const CourseManagement = ({ userRole }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log('Submitting course data:', newCourse);
       if (isEditing) {
         await courseApi.editCourse(selectedCourse._id, newCourse);
       } else {
         await courseApi.createCourse(newCourse);
       }
+      fetchCourses();
+      setShowForm(false);
       setNewCourse({
         courseName: '',
         duration: '',
         description: '',
         price: '',
+        courseRegistrationStatus: 'On Registration',
         learningMode: '',
-        courseRegistrationStatus: 'OnRegistration',
-        spotLimit: ''
+        spotLimit: '',
+        startDate: '',
+        endDate: '',
+        dayOfWeek: [],
+        time: ''
       });
       setIsEditing(false);
-      setSelectedCourse(null);
-      fetchCourses();
-      setShowForm(false);
+      alert(isEditing ? 'Course updated successfully!' : 'Course created successfully!');
     } catch (error) {
-      console.error('Error saving course:', error);
+      console.error('Error submitting course:', error);
+      console.log('Error response:', error.response);
+      alert(`Error ${isEditing ? 'updating' : 'creating'} course: ${error.response ? error.response.data : error.message}`);
     }
   };
 
@@ -120,9 +131,13 @@ const CourseManagement = ({ userRole }) => {
       duration: '',
       description: '',
       price: '',
+      courseRegistrationStatus: 'On Registration',
       learningMode: '',
-      courseRegistrationStatus: 'OnRegistration',
-      spotLimit: ''
+      spotLimit: '',
+      startDate: '',
+      endDate: '',
+      dayOfWeek: [],
+      time: ''
     });
   };
 
@@ -133,9 +148,13 @@ const CourseManagement = ({ userRole }) => {
       duration: '',
       description: '',
       price: '',
+      courseRegistrationStatus: 'On Registration',
       learningMode: '',
-      courseRegistrationStatus: 'OnRegistration',
-      spotLimit: ''
+      spotLimit: '',
+      startDate: '',
+      endDate: '',
+      dayOfWeek: [],
+      time: ''
     });
     setShowForm(true);
     setTimeout(() => {
@@ -151,12 +170,42 @@ const CourseManagement = ({ userRole }) => {
     setShowForm(false);
     setIsEditing(false);
     setSelectedCourse(null);
+    setNewCourse({
+      courseName: '',
+      duration: '',
+      description: '',
+      price: '',
+      courseRegistrationStatus: 'On Registration',
+      learningMode: '',
+      spotLimit: '',
+      startDate: '',
+      endDate: '',
+      dayOfWeek: [],
+      time: ''
+    });
   };
+
   const handleCloseDetails = () => {
     setIsViewingDetails(false);
     setSelectedCourse(null);
   };
-
+  const handleDayOfWeekChange = (e) => {
+    const { value, checked } = e.target;
+    const dayNumber = parseInt(value, 10);
+    setNewCourse(prevState => ({
+      ...prevState,
+      dayOfWeek: checked
+        ? [...new Set([...prevState.dayOfWeek, dayNumber])]
+        : prevState.dayOfWeek.filter(day => day !== dayNumber)
+    }));
+  };
+  const getDayName = (day) => {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    if (typeof day === 'number') {
+      return days[day - 1];
+    }
+    return day;
+  };
   if (!['SuperAdmin', 'Admin'].includes(userRole)) {
     return <div>You don't have permission to manage courses.</div>;
   }
@@ -171,9 +220,19 @@ const CourseManagement = ({ userRole }) => {
           {courses.map(course => (
             <li key={course._id} className={styles.courseItem}>
               <div className={styles.courseInfo}>
-                <h3>{course.courseName}</h3>
-                <p>Learning Mode: {course.learningMode}</p>
-                <p>Status: {course.courseRegistrationStatus}</p>
+                <h3 className={styles.courseName}>{course.courseName}</h3>
+                <div className={styles.courseDetails}>
+                  <span className={`${styles.badge} ${styles.learningMode}`}>
+                    {course.learningMode}
+                  </span>
+                  <span className={`${styles.badge} ${styles.status}`}>
+                    {course.courseRegistrationStatus}
+                  </span>
+                </div>
+                <div className={styles.courseDates}>
+                  <span className={styles.dateLabel}>Starts:</span> {course.startDate}
+                  <span className={styles.dateLabel}>Ends:</span> {course.endDate}
+                </div>
               </div>
               <div className={styles.courseActions}>
                 <button onClick={() => handleViewDetails(course._id)} className={styles.viewButton}>
@@ -198,7 +257,21 @@ const CourseManagement = ({ userRole }) => {
             <p><strong>Price:</strong> {selectedCourseDetails.price}</p>
             <p><strong>Learning Mode:</strong> {selectedCourseDetails.learningMode}</p>
             <p><strong>Registration Status:</strong> {selectedCourseDetails.courseRegistrationStatus}</p>
-            <p><strong>Spot Limit:</strong> {selectedCourseDetails.spotLimit}</p>
+            {selectedCourseDetails.learningMode !== 'Online' && (
+              <p><strong>Spot Limit:</strong> {selectedCourseDetails.spotLimit}</p>
+            )}
+            <p><strong>Start Date: </strong>{selectedCourseDetails.startDate}</p>
+            <p><strong>End Date: </strong>{selectedCourseDetails.endDate}</p>
+            <p><strong>Days:</strong></p>
+            <div className={styles.dayOfWeek}>
+              {Array.isArray(selectedCourseDetails.dayOfWeek)
+                ? selectedCourseDetails.dayOfWeek.map(day => (
+                  <span key={day} className={styles.day}>{getDayName(day)}</span>
+                ))
+                : <span className={styles.day}>{getDayName(selectedCourseDetails.dayOfWeek)}</span>
+              }
+            </div>
+            <p><strong>Time: </strong>{selectedCourseDetails.time}</p>
           </div>
           <button onClick={() => setIsViewingDetails(false)} className={styles.closeButton}>
             Close
@@ -283,6 +356,61 @@ const CourseManagement = ({ userRole }) => {
                 className={styles.formInput}
               />
             )}
+            <div className={styles.dateContainer}>
+              <div className={styles.formGroup}>
+                <label htmlFor="startDate" className={styles.label}>Start Date</label>
+                <input
+                  id="startDate"
+                  name="startDate"
+                  type="date"
+                  value={newCourse.startDate}
+                  onChange={handleInputChange}
+                  required
+                  className={styles.formInput}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="endDate" className={styles.label}>End Date</label>
+                <input
+                  id="endDate"
+                  name="endDate"
+                  type="date"
+                  value={newCourse.endDate}
+                  onChange={handleInputChange}
+                  required
+                  className={styles.formInput}
+                />
+              </div>
+            </div>
+            <div className={styles.formGroupDayOfWeek}>
+              <label className={styles.label}>Days of the Week:</label>
+              <div className={styles.dayOfWeekContainer}>
+                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, index) => (
+                  <label key={day} className={styles.dayOfWeekItem}>
+                    <input
+                      type="checkbox"
+                      name="dayOfWeek"
+                      value={index + 1}
+                      checked={newCourse.dayOfWeek.includes(index + 1)}
+                      onChange={handleDayOfWeekChange}
+                    />
+                    <span>{day.slice(0, 3)}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="time" className={styles.label}>Time</label>
+              <input
+                id="time"
+                name="time"
+                type="time"
+                value={newCourse.time}
+                onChange={handleInputChange}
+                required
+                className={styles.formInput}
+              />
+            </div>
             <div className={styles.formButtons}>
               <button type="submit" className={styles.submitButton}>
                 {isEditing ? 'Update Course' : 'Add Course'}

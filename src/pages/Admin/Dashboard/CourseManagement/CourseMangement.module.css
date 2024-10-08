@@ -3,11 +3,13 @@
   flex-direction: column;
   gap: 2rem;
 }
+
 .title {
   font-size: 2rem;
   color: #1890ff;
   margin-bottom: 2rem;
 }
+
 .formSection, .listSection {
   background-color: #f5f5f5;
   padding: 2rem;
@@ -20,6 +22,7 @@
   flex-direction: column;
   gap: 1rem;
 }
+
 .formInput, .formSelect, .formTextarea {
   padding: 0.75rem;
   border: 1px solid #ccc;
@@ -37,12 +40,7 @@
   gap: 1rem;
   margin-top: 1rem;
 }
-.formSection, .listSection {
-  background-color: #f5f5f5;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+
 .createSection, .formSection {
   background-color: #f5f5f5;
   padding: 2rem;
@@ -63,6 +61,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 .submitButton {
   border-color: #4CAF50;
   color: #4CAF50;
@@ -93,18 +92,54 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   margin-bottom: 1rem;
-  background-color: white;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.courseInfo h3 {
-  margin: 0 0 0.5rem 0;
+.courseInfo {
+  flex: 1;
 }
 
-.courseInfo p {
-  margin: 0.25rem 0;
+.courseName {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.courseDetails {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.learningMode {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.courseDates {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.dateLabel {
+  font-weight: bold;
+  margin-right: 0.25rem;
 }
 
 .courseActions {
@@ -113,20 +148,18 @@
 }
 
 .viewButton, .editButton {
-  padding: 8px 16px;
-  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  border: 2px solid;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
   font-weight: bold;
   transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  background-color: white;
 }
 
 .viewButton {
-  background-color: white;
   color: #2196F3;
-  border: 2px solid #2196F3;
+  border-color: #2196F3;
 }
 
 .viewButton:hover {
@@ -135,78 +168,14 @@
 }
 
 .editButton {
-  background-color: white;
   color: #FFC107;
-  border: 2px solid #FFC107;
+  border-color: #FFC107;
 }
 
 .editButton:hover {
   background-color: #FFC107;
   color: white;
 }
-
-.courseDetails {
-  background-color: #f5f5f5;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-top: 2rem;
-}
-
-.courseDetails h3 {
-  margin-top: 0;
-}
-
-.courseDetails p {
-  margin: 0.5rem 0;
-}
-
-.scheduleSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.dayOfWeekContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.dayOfWeekItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dayOfWeekItem input[type="checkbox"] {
-  margin: 0;
-}
-.createButton {
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background-color: white;
-  color: #4CAF50;
-  border: 2px solid #4CAF50;
-}
-
-.createButton:hover {
-  background-color: #4CAF50;
-  color: white;
-}
-
-
 .courseDetailsContainer {
   background-color: #f5f5f5;
   padding: 2rem;
@@ -231,51 +200,74 @@
   background-color: #d32f2f;
 }
 
-.courseDetailsContainer {
-  position: relative;
-  background-color: #f5f5f5;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-  padding-bottom: 60px; /* Add space for the button */
+.scheduleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.closeButton {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  padding: 8px 16px;
-  background-color: #f44336;
-  color: white;
-  border: none;
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dateContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.dateContainer .formGroup {
+  flex: 1;
+}
+
+.formGroupDayOfWeek {
+  margin-bottom: 1rem;
+}
+
+.dayOfWeekContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dayOfWeekItem {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
   border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.dayOfWeekItem input {
+  display: none;
+}
+
+.dayOfWeekItem span {
+  font-size: 0.9rem;
+}
+
+.dayOfWeekItem input:checked + span {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.createButton {
+  padding: 8px 16px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: white;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
 }
 
-.closeButton:hover {
-  background-color: #d32f2f;
-}
-.checkboxGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  padding: 10px;
-}
-
-.checkboxLabel {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.checkbox {
-  margin-right: 5px;
+.createButton:hover {
+  background-color: #4CAF50;
+  color: white;
 }
