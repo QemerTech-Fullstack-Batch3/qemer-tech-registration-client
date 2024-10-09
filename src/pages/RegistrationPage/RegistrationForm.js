@@ -9,6 +9,7 @@ const RegistrationForm = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     gender: '',
@@ -20,10 +21,9 @@ const RegistrationForm = () => {
   const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
-    const fetchCourseInfo = async () => {
+    const fetchCourseInfo = async () => { 
       try {
         const response = await courseApi.getCourseInfo(courseId);
-        console.log('Course API response:', response);
         if (response.data && response.data.course) {
           setCourse(response.data.course);
         } else {
@@ -44,34 +44,40 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsSubmitting(true);
     try {
       const registrationData = { ...formData, courseId };
       if (course.learningMode !== 'InPerson') {
         delete registrationData.CityOfResidence;
       }
-      const response = await registrationApi.createRegistration({
-        ...formData,
-        courseId: courseId,
-  
-      });      setSuccessMessage(response.data.data);
+      const response = await registrationApi.registerForCourse(registrationData);
+      setSuccessMessage(response.data.data);
     } catch (error) {
-      console.error('Error registering for course: ', error);
-      setError('An error occurred while registering. Please try again.');
+      console.error('Error registering for course:', error);
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('An error occurred while registering. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
   const SuccessMessage = ({ message }) => (
     <div className={styles.successMessage}>
       <h3>{message.title}</h3>
       <p>{message.message}</p>
-      <ul>
-        {message.nextSteps.map((step, index) => (
-          <li key={index}>{step}</li>
-        ))}
-      </ul>
+      {message.nextSteps && message.nextSteps.length > 0 && (
+        <>
+          <ul>
+            {message.nextSteps.map((step, index) => (
+              <li key={index}>{step}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
-
   if (!course) {
     return <LoadingSpinner />;  
   }

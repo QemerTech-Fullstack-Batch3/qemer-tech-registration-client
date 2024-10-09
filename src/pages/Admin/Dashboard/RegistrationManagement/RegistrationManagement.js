@@ -17,7 +17,6 @@ const RegistrationManagement = () => {
   const fetchRegistrations = async () => {
     try {
       const response = await registrationApi.getRegisters();
-      console.log(response.data)
       const registrationsWithCourses = await Promise.all(
         response.data.map(async (registration) => {
           const courseResponse = await courseApi.getCourseInfo(registration.courseId);

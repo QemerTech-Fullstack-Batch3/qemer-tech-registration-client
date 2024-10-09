@@ -108,14 +108,32 @@ const CourseManagement = ({ userRole }) => {
     try {
       const response = await courseApi.getCourseInfo(courseId);
       const courseData = response.data.course;
+      
+      // Format dates
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0];
+      };
+      const dayNameToNumber = {
+        'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4,
+        'Friday': 5, 'Saturday': 6, 'Sunday': 7
+      };
+      const dayOfWeek = Array.isArray(courseData.dayOfWeek)
+      ? courseData.dayOfWeek.map(day => dayNameToNumber[day] || day)
+      : [];
+      setNewCourse({
+        ...courseData,
+        startDate: formatDate(courseData.startDate),
+        endDate: formatDate(courseData.endDate),
+        dayOfWeek: dayOfWeek
+      });
+      
       setSelectedCourse(courseData);
-      setNewCourse(courseData);
       setIsEditing(true);
       setShowForm(true);
       setTimeout(() => {
-        const formSection = document.querySelector(`.${styles.formSection}`);
-        if (formSection) {
-          formSection.scrollIntoView({ behavior: 'smooth' });
+        if (formSectionRef.current) {
+          formSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
       }, 100);
     } catch (error) {
@@ -123,23 +141,6 @@ const CourseManagement = ({ userRole }) => {
     }
   };
 
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setSelectedCourse(null);
-    setNewCourse({
-      courseName: '',
-      duration: '',
-      description: '',
-      price: '',
-      courseRegistrationStatus: 'On Registration',
-      learningMode: '',
-      spotLimit: '',
-      startDate: '',
-      endDate: '',
-      dayOfWeek: [],
-      time: ''
-    });
-  };
 
   const handleCreateNewCourse = () => {
     setIsEditing(false);
@@ -185,10 +186,7 @@ const CourseManagement = ({ userRole }) => {
     });
   };
 
-  const handleCloseDetails = () => {
-    setIsViewingDetails(false);
-    setSelectedCourse(null);
-  };
+
   const handleDayOfWeekChange = (e) => {
     const { value, checked } = e.target;
     const dayNumber = parseInt(value, 10);

@@ -3,29 +3,17 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styles from './CoursePage.module.css';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import packageApi from '../../api/packageApi';
-import scheduleApi from '../../api/scheduleApi';
 
 const CoursePage = () => {
-  const [packageDetails, setPackageDetails] = useState(null)
-  const [schedules, setSchedules] = useState({})
+  const [packageDetails, setPackageDetails] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPackageDetails = async () => {
       try {
         const response = await packageApi.getPackageById(id);
         setPackageDetails(response.data);
-
-        // Fetch schedules for all courses in the package
-        const schedulePromises = response.data.courses.map(course =>
-          scheduleApi.getScheduleOfACourse(course._id)
-        );
-        const scheduleResponses = await Promise.all(schedulePromises);
-        const scheduleData = {};
-        scheduleResponses.forEach((response, index) => {
-          scheduleData[response.data.courseId] = response.data;
-        });
-        setSchedules(scheduleData);
       } catch (error) {
         console.error('Error fetching package details:', error);
       }
@@ -33,13 +21,6 @@ const CoursePage = () => {
 
     fetchPackageDetails();
   }, [id]);
-
-  const countDaysPerWeek = (courseId) => {
-    const schedule = schedules[courseId];
-    if (!schedule || !schedule.dayOfWeek) return 'N/A';
-    return schedule.dayOfWeek.length;
-  };
-  const navigate = useNavigate();
 
   const handleGetStarted = (courseId) => {
     navigate(`/register/${courseId}`);
@@ -56,43 +37,69 @@ const CoursePage = () => {
       <h2 className={styles.packageTitle}>{packageDetails.packageName} packages:</h2>
 
       <div className={styles.programGrid}>
-        {packageDetails.courses.map(course => (
-          <div key={course._id} className={styles.programCard}>
-            <div className={styles.priceGroup}>
-              <h2 className={styles.coursePrice}>{course.price} ETB</h2>
-              <p className={styles.priceSubtext}>per student, per Package</p>
-              <h3 className={styles.courseName}>{course.courseName}</h3>
-            </div>
-            <div className={styles.infoGroup}>
-              <p className={styles.courseDescription}>{course.description}</p>
-              <div className={styles.durationGroup}>
-                <p className={styles.courseDuration}>
-                  <i className="fas fa-clock"></i>
-                  <span className={styles.numberHighlight}>
-                    {course.duration.split(' ')[0]}
-                  </span>
-                  {course.duration.split(' ').slice(1).join(' ')}
-                </p>
-                <p className={styles.daysPerWeek}>
-                  <i className="fas fa-calendar-alt"></i>
-                  <span className={styles.numberHighlight}>
-                    {countDaysPerWeek(course._id)}
-                  </span>
-                  days per week
-                </p>
+        {packageDetails.courses.map(course => {
+          const isRegistrationOpen = course.courseRegistrationStatus === 'On Registration';
+          const isInProgress = course.courseRegistrationStatus === 'On Progress';
+          const isEnded = course.courseRegistrationStatus === 'Ended';
+
+          return (
+            <div key={course._id} className={styles.programCard}>
+              <div className={styles.priceGroup}>
+                <h2 className={styles.coursePrice}>{course.price} ETB</h2>
+                <p className={styles.priceSubtext}>per student, per Package</p>
+                <h3 className={styles.courseName}>{course.courseName}</h3>
               </div>
+              <div className={styles.infoGroup}>
+                <p className={styles.courseDescription}>{course.description}</p>
+                <div className={styles.durationGroup}>
+                  <p className={styles.courseDuration}>
+                    <span className={styles.numberHighlight}>
+                      {course.duration.split(' ')[0]}
+                    </span>
+                    {course.duration.split(' ').slice(1).join(' ')}
+                  </p>
+                  <p className={styles.daysPerWeek}>
+                    <span className={styles.numberHighlight}>
+                      {course.dayOfWeek.length}
+                    </span>
+                    days per week
+                  </p>
+                </div>
+                <div className={styles.dateGroup}>
+                  <div className={styles.dateInfo}>
+                    <span className={styles.dateLabel}>Start Date</span>
+                    <span className={styles.dateValue}>{new Date(course.startDate).toLocaleDateString()}</span>
+                  </div>
+                  <div className={styles.dateInfo}>
+                    <span className={styles.dateLabel}>End Date</span>
+                    <span className={styles.dateValue}>{new Date(course.endDate).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              </div>
+              <p className={`${styles.registrationStatus} ${styles[course.courseRegistrationStatus.toLowerCase()]}`}>
+                {course.courseRegistrationStatus}
+              </p>
+              {isRegistrationOpen && (
+                <button
+                  className={styles.getStartedBtn}
+                  onClick={() => handleGetStarted(course._id)}
+                >
+                  Get started
+                </button>
+              )}
+              {isInProgress && (
+                <p className={styles.closedMessage}>
+                  Registration is closed. The course is currently in progress.
+                </p>
+              )}
+              {isEnded && (
+                <p className={styles.closedMessage}>
+                  Registration is closed. The course has ended.
+                </p>
+              )}
             </div>
-            <p className={`${styles.registrationStatus} ${styles[course.courseRegistrationStatus.toLowerCase()]}`}>
-              {course.courseRegistrationStatus}
-            </p>
-            <button
-              className={styles.getStartedBtn}
-              onClick={() => handleGetStarted(course._id)}
-            >
-              Get started
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

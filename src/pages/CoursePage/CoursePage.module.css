@@ -233,7 +233,37 @@
   transition: background-color 0.3s ease;
 }
 
+.dateGroup {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
 
+.dateInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.dateLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin-bottom: 0.2rem;
+}
+
+.dateValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e40af;
+}
+.closedMessage {
+  color: #F44336;
+  font-weight: bold;
+}
 @media (max-width: 768px) {
   .programGrid {
     flex-direction: column;

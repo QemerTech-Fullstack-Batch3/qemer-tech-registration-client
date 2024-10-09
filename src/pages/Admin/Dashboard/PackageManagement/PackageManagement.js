@@ -64,7 +64,6 @@ const PackageManagement = () => {
       fetchPackages();
     } catch (error) {
       console.error('Error saving package:', error);
-      // Add error handling here, e.g., display an error message to the user
     }
   };
 
