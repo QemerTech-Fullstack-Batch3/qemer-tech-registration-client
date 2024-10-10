@@ -7,7 +7,7 @@ const RegistrationManagement = () => {
   const [registrations, setRegistrations] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [isViewingDetails, setIsViewingDetails] = useState(false);
-
+  const [showRegistrations, setShowRegistrations] = useState({});
   const detailsSectionRef = useRef(null);
 
   useEffect(() => {
@@ -44,54 +44,55 @@ const RegistrationManagement = () => {
     setSelectedRegistration(null);
   };
 
+  const groupedRegistrations = registrations.reduce((acc, registration) => {
+    const courseName = `${registration.course.courseName} (Start: ${new Date(registration.course.startDate).toLocaleDateString()}, End: ${new Date(registration.course.endDate).toLocaleDateString()})`;
+    if (!acc[courseName]) {
+      acc[courseName] = [];
+    }
+    acc[courseName].push(registration);
+    return acc;
+  }, {});
+
+  const handleToggleRegistrations = (courseName) => {
+    setShowRegistrations(prev => ({
+      ...prev,
+      [courseName]: !prev[courseName]
+    }));
+  };
+
   return (
     <div className={styles.registrationManagement}>
       <h2 className={styles.title}>Registration Management</h2>
 
       <div className={styles.content}>
-        <div className={styles.categorySection}>
-          <h3 className={styles.sectionTitle}>Online Course Registrations</h3>
-          <ul className={styles.registrationList}>
-            {registrations
-              .filter(registration => registration.course.learningMode === 'Online')
-              .map(registration => (
-                <li key={registration._id} className={styles.registrationItem}>
-                  <div className={styles.registrationInfo}>
-                    <h4>{registration.fullName}</h4>
-                    <p>Course: {registration.course.courseName}</p>
-                    <p>Registration Date: {new Date(registration.registrationDate).toLocaleDateString()}</p>
-                  </div>
-                  <div className={styles.registrationActions}>
-                    <button onClick={() => handleViewDetails(registration)} className={styles.viewButton}>
-                      View Details
-                    </button>
-                  </div>
-                </li>
-              ))}
-          </ul>
-        </div>
-
-        <div className={styles.categorySection}>
-          <h3 className={styles.sectionTitle}>In-Person Course Registrations</h3>
-          <ul className={styles.registrationList}>
-            {registrations
-              .filter(registration => registration.course.learningMode === 'InPerson')
-              .map(registration => (
-                <li key={registration._id} className={styles.registrationItem}>
-                  <div className={styles.registrationInfo}>
-                    <h4>{registration.fullName}</h4>
-                    <p>Course: {registration.course.courseName}</p>
-                    <p>Registration Date: {new Date(registration.registrationDate).toLocaleDateString()}</p>
-                  </div>
-                  <div className={styles.registrationActions}>
-                    <button onClick={() => handleViewDetails(registration)} className={styles.viewButton}>
-                      View Details
-                    </button>
-                  </div>
-                </li>
-              ))}
-          </ul>
-        </div>
+        {Object.keys(groupedRegistrations).map(courseName => (
+          <div key={courseName} className={styles.categorySection}>
+            <h3 className={styles.sectionTitle}>{courseName}</h3>
+            <button
+              onClick={() => handleToggleRegistrations(courseName)}
+              className={`${styles.viewRegistersButton} ${showRegistrations[courseName] ? styles.hide : ''}`}
+            >
+              {showRegistrations[courseName] ? 'Hide Registers' : 'View Registers'}
+            </button>
+            {showRegistrations[courseName] && (
+              <ul className={styles.registrationList}>
+                {groupedRegistrations[courseName].map(registration => (
+                  <li key={registration._id} className={styles.registrationItem}>
+                    <div className={styles.registrationInfo}>
+                      <h4>{registration.fullName}</h4>
+                      <p>Registration Date: {new Date(registration.registrationDate).toLocaleDateString()}</p>
+                    </div>
+                    <div className={styles.registrationActions}>
+                      <button onClick={() => handleViewDetails(registration)} className={styles.viewButton}>
+                        View Details
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
       </div>
 
       {isViewingDetails && selectedRegistration && (
