@@ -3,7 +3,6 @@ import styles from './CourseMangement.module.css'
 import courseApi from '../../../../api/courseApi'
 
 const CourseManagement = ({ userRole }) => {
-  const courseDetailsRef = useRef(null);
   const formSectionRef = useRef(null);
   const [courses, setCourses] = useState([]);
 

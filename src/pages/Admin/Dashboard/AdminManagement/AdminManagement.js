@@ -11,7 +11,7 @@ const AdminManagement = () => {
     username: '',
     email: '',
     password: '',
-    role: '', // Default role is empty
+    role: '', 
   });
 
   useEffect(() => {

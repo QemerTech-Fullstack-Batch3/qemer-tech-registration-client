@@ -95,7 +95,7 @@
   background-color: white;
   color: #4CAF50;
   border: 2px solid #4CAF50;
-  width: auto; /* Keep the old width */
+  width: auto; 
 }
 
 .createButton:hover {
@@ -105,13 +105,13 @@
 
 .formButtons {
   display: flex;
-  justify-content: space-between; /* Align buttons side by side */
+  justify-content: space-between;
 }
 
 .submitButton {
   background-color: #1890ff;
   color: white;
-  width: 85%; /* Make the button take 85% of the width */
+  width: 85%; 
 }
 
 .submitButton:hover {
@@ -119,11 +119,11 @@
 }
 
 .cancelButton {
-  background-color: #f5222d; /* Red color for cancel */
+  background-color: #f5222d;
   color: white;
-  width: 15%; /* Make the button take 15% of the width */
+  width: 15%; 
 }
 
 .cancelButton:hover {
-  background-color: #ff4d4f; /* Darker red on hover */
+  background-color: #ff4d4f; 
 }

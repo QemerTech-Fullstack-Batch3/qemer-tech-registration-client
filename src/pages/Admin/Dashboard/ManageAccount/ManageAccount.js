@@ -3,7 +3,7 @@ import styles from './ManageAccount.module.css';
 import adminApi from '../../../../api/adminApi';
 
 const ManageAccount = () => {
-  const [email, setEmail] = useState(''); // New state for email
+  const [email, setEmail] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -12,7 +12,7 @@ const ManageAccount = () => {
     try {
       await adminApi.changePassword({ email, currentPassword: oldPassword, newPassword });
       alert('Password changed successfully!');
-      setEmail(''); // Reset email
+      setEmail(''); 
       setOldPassword('');
       setNewPassword('');
       setIsChangingPassword(false);

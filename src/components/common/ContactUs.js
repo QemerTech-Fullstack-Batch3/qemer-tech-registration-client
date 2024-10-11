@@ -55,10 +55,6 @@ const ContactUs = () => {
               <Field type="email" name="user_email" placeholder="Email" />
               <ErrorMessage name="user_email" component="div" className={styles.error} />
             </div>
-            {/* <div className={styles.formGroup}>
-              <Field type="tel" name="phone" placeholder="Phone Number" />
-              <ErrorMessage name="phone" component="div" className={styles.error} />
-            </div> */}
             <div className={styles.formGroup}>
               <Field as="textarea" name="message" placeholder="Your Message" />
               <ErrorMessage name="message" component="div" className={styles.error} />

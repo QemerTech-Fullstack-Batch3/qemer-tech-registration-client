@@ -24,7 +24,7 @@
   border-radius: 12px;
   padding: 1.5rem;
   width: 280px;
-  height: 480px; /* Increased from 450px to 480px */
+  height: 480px; 
   display: flex;
   flex-direction: column;
   align-items: center;
