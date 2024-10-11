@@ -3,20 +3,22 @@ import styles from './ManageAccount.module.css';
 import adminApi from '../../../../api/adminApi';
 
 const ManageAccount = () => {
+  const [email, setEmail] = useState(''); // New state for email
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   const handleChangePassword = async () => {
     try {
-      await adminApi.changeAdminPassword({ currentPassword: oldPassword, newPassword });
+      await adminApi.changePassword({ email, currentPassword: oldPassword, newPassword });
       alert('Password changed successfully!');
+      setEmail(''); // Reset email
       setOldPassword('');
       setNewPassword('');
       setIsChangingPassword(false);
     } catch (error) {
       console.error('Error changing password:', error);
-      alert('Failed to change password. Please check your current password and try again.');
+      alert('Failed to change password. Please check your email and current password, and try again.');
     }
   };
 
@@ -26,6 +28,14 @@ const ManageAccount = () => {
       {isChangingPassword ? (
         <div className={styles.changePasswordSection}>
           <h3>Change Password</h3>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={styles.formInput}
+          />
           <input
             type="password"
             placeholder="Old Password"

@@ -11,7 +11,7 @@ const AdminManagement = () => {
     username: '',
     email: '',
     password: '',
-    role: 'Admin', // Default role
+    role: '', // Default role is empty
   });
 
   useEffect(() => {
@@ -28,33 +28,29 @@ const AdminManagement = () => {
       setRegistrars(registrarsResponse.data.Registrar);
     } catch (error) {
       console.error('Error fetching admin data:', error);
-      alert('Failed to fetch admin data. Please try again later.');
+      alert('Failed to fetch admin data. Please check your connection or try again later.');
     }
   };
 
   const handleCreateAdmin = async () => {
-    if (!newAdminData.username || !newAdminData.email || !newAdminData.password) {
+    if (!newAdminData.username || !newAdminData.email || !newAdminData.password || !newAdminData.role) {
       alert('Please fill in all fields.');
       return;
     }
-  
+
     try {
-      console.log('Creating admin with data:', newAdminData); // Log the data being sent
       await adminApi.createAdmin(newAdminData);
       alert('Admin created successfully!');
-      setNewAdminData({ username: '', email: '', password: '', role: 'Admin' });
+      setNewAdminData({ username: '', email: '', password: '', role: '' });
       setIsCreatingAdmin(false);
       fetchAdminData();
     } catch (error) {
       console.error('Error creating admin:', error);
       alert('Failed to create admin. Please check the input and try again.');
-      if (error.response) {
-        console.error('Error response data:', error.response.data); // Log the error response from the server
-      }
     }
   };
 
-  if (!admins || !registrars) {
+  if (!admins.length || !registrars.length) {
     return <LoadingSpinner />;
   }
 
@@ -97,12 +93,14 @@ const AdminManagement = () => {
       </div>
 
       <div className={styles.createSection}>
-        <h3 className={styles.sectionTitle}>Create New Admin</h3>
-        <button onClick={() => setIsCreatingAdmin(!isCreatingAdmin)} className={styles.createButton}>
-          {isCreatingAdmin ? 'Cancel' : 'Create Admin'}
-        </button>
+        <h2>Create Admin</h2>
+        {!isCreatingAdmin && (
+          <button onClick={() => setIsCreatingAdmin(true)} className={styles.createButton}>
+            Create New Admin
+          </button>
+        )}
         {isCreatingAdmin && (
-          <div className={styles.createAdminForm}>
+          <form className={styles.createAdminForm}>
             <input
               type="text"
               placeholder="Username"
@@ -131,14 +129,21 @@ const AdminManagement = () => {
               value={newAdminData.role}
               onChange={(e) => setNewAdminData({ ...newAdminData, role: e.target.value })}
               className={styles.formSelect}
+              required
             >
+              <option value="" disabled>Select Role</option>
               <option value="Admin">Admin</option>
               <option value="Registrar">Registrar</option>
             </select>
-            <button onClick={handleCreateAdmin} className={styles.button}>
-              Create Admin
-            </button>
-          </div>
+            <div className={styles.formButtons}>
+              <button type="button" onClick={handleCreateAdmin} className={styles.submitButton}>
+                Add Admin
+              </button>
+              <button type="button" onClick={() => setIsCreatingAdmin(false)} className={styles.cancelButton}>
+                Cancel
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </div>

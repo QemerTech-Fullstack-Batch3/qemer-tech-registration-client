@@ -83,20 +83,47 @@
   transition: background-color 0.3s ease;
 }
 
-.adminButton {
-  background-color: #1890ff;
+.createButton {
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: white;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+  width: auto; /* Keep the old width */
+}
+
+.createButton:hover {
+  background-color: #4CAF50;
   color: white;
 }
 
-.adminButton:hover {
+.formButtons {
+  display: flex;
+  justify-content: space-between; /* Align buttons side by side */
+}
+
+.submitButton {
+  background-color: #1890ff;
+  color: white;
+  width: 85%; /* Make the button take 85% of the width */
+}
+
+.submitButton:hover {
   background-color: #40a9ff;
 }
 
-.registrarButton {
-  background-color: #52c41a;
+.cancelButton {
+  background-color: #f5222d; /* Red color for cancel */
   color: white;
+  width: 15%; /* Make the button take 15% of the width */
 }
 
-.registrarButton:hover {
-  background-color: #73d13d;
+.cancelButton:hover {
+  background-color: #ff4d4f; /* Darker red on hover */
 }
