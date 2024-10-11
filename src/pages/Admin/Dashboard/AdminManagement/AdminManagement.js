@@ -6,7 +6,13 @@ import LoadingSpinner from '../../../../components/common/LoadingSpinner';
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
   const [registrars, setRegistrars] = useState([]);
-  const [pendingUsers, setPendingUsers] = useState([]);
+  const [isCreatingAdmin, setIsCreatingAdmin] = useState(false);
+  const [newAdminData, setNewAdminData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'Admin', // Default role
+  });
 
   useEffect(() => {
     fetchAdminData();
@@ -14,66 +20,48 @@ const AdminManagement = () => {
 
   const fetchAdminData = async () => {
     try {
-      const [adminsResponse, registrarsResponse, pendingResponse] = await Promise.all([
+      const [adminsResponse, registrarsResponse] = await Promise.all([
         adminApi.getAdmins(),
         adminApi.getRegistrars(),
-        adminApi.getUsersInPending()
       ]);
       setAdmins(adminsResponse.data.admins);
       setRegistrars(registrarsResponse.data.Registrar);
-      setPendingUsers(pendingResponse.data.UsersInPending);
     } catch (error) {
       console.error('Error fetching admin data:', error);
+      alert('Failed to fetch admin data. Please try again later.');
     }
   };
 
-  const handleAssignRole = async (adminId, role) => {
+  const handleCreateAdmin = async () => {
+    if (!newAdminData.username || !newAdminData.email || !newAdminData.password) {
+      alert('Please fill in all fields.');
+      return;
+    }
+  
     try {
-      await adminApi.assignRole(adminId, role);
+      console.log('Creating admin with data:', newAdminData); // Log the data being sent
+      await adminApi.createAdmin(newAdminData);
+      alert('Admin created successfully!');
+      setNewAdminData({ username: '', email: '', password: '', role: 'Admin' });
+      setIsCreatingAdmin(false);
       fetchAdminData();
     } catch (error) {
-      console.error('Error assigning role:', error);
+      console.error('Error creating admin:', error);
+      alert('Failed to create admin. Please check the input and try again.');
+      if (error.response) {
+        console.error('Error response data:', error.response.data); // Log the error response from the server
+      }
     }
   };
-  if(!admins || !registrars || !pendingUsers){
-    return <LoadingSpinner />
+
+  if (!admins || !registrars) {
+    return <LoadingSpinner />;
   }
+
   return (
     <div className={styles.adminManagement}>
       <h2 className={styles.title}>Admin Management</h2>
-      
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>Pending Users</h3>
-        {pendingUsers.length === 0 ? (
-          <p className={styles.emptyMessage}>No pending users</p>
-        ) : (
-          <ul className={styles.userList}>
-            {pendingUsers.map(user => (
-              <li key={user._id} className={styles.userItem}>
-                <div className={styles.userInfo}>
-                  <span className={styles.username}>{user.username}</span>
-                  <span className={styles.email}>{user.email}</span>
-                </div>
-                <div className={styles.actions}>
-                  <button 
-                    onClick={() => handleAssignRole(user._id, 'Admin')}
-                    className={`${styles.button} ${styles.adminButton}`}
-                  >
-                    Assign Admin
-                  </button>
-                  <button 
-                    onClick={() => handleAssignRole(user._id, 'Registrar')}
-                    className={`${styles.button} ${styles.registrarButton}`}
-                  >
-                    Assign Registrar
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      
+
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Active Admins</h3>
         {admins.length === 0 ? (
@@ -90,7 +78,7 @@ const AdminManagement = () => {
           </ul>
         )}
       </div>
-      
+
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Active Registrars</h3>
         {registrars.length === 0 ? (
@@ -105,6 +93,52 @@ const AdminManagement = () => {
               </li>
             ))}
           </ul>
+        )}
+      </div>
+
+      <div className={styles.createSection}>
+        <h3 className={styles.sectionTitle}>Create New Admin</h3>
+        <button onClick={() => setIsCreatingAdmin(!isCreatingAdmin)} className={styles.createButton}>
+          {isCreatingAdmin ? 'Cancel' : 'Create Admin'}
+        </button>
+        {isCreatingAdmin && (
+          <div className={styles.createAdminForm}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={newAdminData.username}
+              onChange={(e) => setNewAdminData({ ...newAdminData, username: e.target.value })}
+              required
+              className={styles.formInput}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={newAdminData.email}
+              onChange={(e) => setNewAdminData({ ...newAdminData, email: e.target.value })}
+              required
+              className={styles.formInput}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={newAdminData.password}
+              onChange={(e) => setNewAdminData({ ...newAdminData, password: e.target.value })}
+              required
+              className={styles.formInput}
+            />
+            <select
+              value={newAdminData.role}
+              onChange={(e) => setNewAdminData({ ...newAdminData, role: e.target.value })}
+              className={styles.formSelect}
+            >
+              <option value="Admin">Admin</option>
+              <option value="Registrar">Registrar</option>
+            </select>
+            <button onClick={handleCreateAdmin} className={styles.button}>
+              Create Admin
+            </button>
+          </div>
         )}
       </div>
     </div>

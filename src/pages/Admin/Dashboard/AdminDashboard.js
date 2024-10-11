@@ -7,6 +7,7 @@ import RegistrationManagement from './RegistrationManagement/RegistrationManagem
 import ScheduleManagement from './ScheduleManagement/ScheduleManagement';
 import AdminManagement from './AdminManagement/AdminManagement';
 import PackageManagement from './PackageManagement/PackageManagement';
+import ManageAccount from './ManageAccount/ManageAccount';
 
 const AdminDashboard = ({ userRole }) => {
   const [activeTab, setActiveTab] = useState('courses');
@@ -23,6 +24,8 @@ const AdminDashboard = ({ userRole }) => {
         return <PackageManagement />;
       case 'admins':
         return userRole === 'SuperAdmin' ? <AdminManagement /> : null;
+      case 'account':
+        return userRole !== 'SuperAdmin' ? <ManageAccount /> : null;
       default:
         return <div>Select a tab</div>;
     }
@@ -56,6 +59,13 @@ const AdminDashboard = ({ userRole }) => {
               <li className={activeTab === 'admins' ? styles.active : ''}>
                 <button onClick={() => setActiveTab('admins')}>
                   <FaUsersCog /> Admin Management
+                </button>
+              </li>
+            )}
+            {userRole !== 'SuperAdmin' && (
+              <li className= {activeTab === 'account' ? styles.active: ''}>
+                <button onClick ={() => setActiveTab('account')}>
+                  <FaUsersCog /> Manage Account
                 </button>
               </li>
             )}
