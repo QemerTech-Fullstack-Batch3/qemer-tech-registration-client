@@ -19,7 +19,6 @@ const Header = ({ userRole, setUserRole, showNavLinks = true }) => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <img src={logo} alt="Qemer Logo" />
-        <span>Qemer</span>
       </div>
       {showNavLinks && (
         <nav className={styles.nav}>
