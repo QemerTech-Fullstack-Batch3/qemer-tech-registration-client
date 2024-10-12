@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://incredible-beignet-708e03.netlify.app'; 
+const API_BASE_URL = 'https://qemer-tech-registration-server.onrender.com'; 
 
 const api = axios.create({
   baseURL: API_BASE_URL,
