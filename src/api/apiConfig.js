@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000'; 
+const API_BASE_URL = 'https://incredible-beignet-708e03.netlify.app'; 
 
 const api = axios.create({
   baseURL: API_BASE_URL,
