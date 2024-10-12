@@ -9,7 +9,6 @@ const RegistrationForm = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     gender: '',
@@ -44,7 +43,7 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setIsSubmitting(true);
+
     try {
       const registrationData = { ...formData, courseId };
       if (course.learningMode !== 'InPerson') {
@@ -59,8 +58,6 @@ const RegistrationForm = () => {
       } else {
         setError('An error occurred while registering. Please try again.');
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
   const SuccessMessage = ({ message }) => (
