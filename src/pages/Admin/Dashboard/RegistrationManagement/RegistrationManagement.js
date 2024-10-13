@@ -65,18 +65,21 @@ const RegistrationManagement = () => {
       <h2 className={styles.title}>Registration Management</h2>
 
       <div className={styles.content}>
-        {Object.keys(groupedRegistrations).map(courseName => (
-          <div key={courseName} className={styles.categorySection}>
-            <h3 className={styles.sectionTitle}>{courseName}</h3>
+        {Object.keys(groupedRegistrations).map(courseInfo => (
+          <div key={courseInfo} className={styles.categorySection}>
+            <h3 className={styles.sectionTitle}>
+              <span className={styles.courseInfo}>{courseInfo.split(' (')[0]}</span>
+              <span className={styles.courseDates}>{courseInfo.split(' (')[1]}</span>
+            </h3>
             <button
-              onClick={() => handleToggleRegistrations(courseName)}
-              className={`${styles.viewRegistersButton} ${showRegistrations[courseName] ? styles.hide : ''}`}
+              onClick={() => handleToggleRegistrations(courseInfo)}
+              className={`${styles.viewRegistersButton} ${showRegistrations[courseInfo] ? styles.hide : ''}`}
             >
-              {showRegistrations[courseName] ? 'Hide Registers' : 'View Registers'}
+              {showRegistrations[courseInfo] ? 'Hide Registers' : 'View Registers'}
             </button>
-            {showRegistrations[courseName] && (
+            {showRegistrations[courseInfo] && (
               <ul className={styles.registrationList}>
-                {groupedRegistrations[courseName].map(registration => (
+                {groupedRegistrations[courseInfo].map(registration => (
                   <li key={registration._id} className={styles.registrationItem}>
                     <div className={styles.registrationInfo}>
                       <h4>{registration.fullName}</h4>

@@ -54,16 +54,3 @@ button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-.signupLink {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.signupLink a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.signupLink a:hover {
-  text-decoration: underline;
-}

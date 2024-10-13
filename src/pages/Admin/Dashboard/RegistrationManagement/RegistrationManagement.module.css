@@ -50,7 +50,18 @@
   list-style-type: none;
   padding: 0;
 }
+.courseInfo {
+  font-weight: bold; 
+  color: #333;
 
+  margin-right: 0.5rem; 
+}
+
+.courseDates {
+  font-size: 1.2rem; 
+  color: #888; 
+  font-style: italic; 
+}
 .registrationItem {
   display: flex;
   justify-content: space-between;

@@ -62,9 +62,6 @@ const AdminLogin = ({ setUserRole, showNavLinks}) => {
           </Form>
         )}
       </Formik>
-      <div className={styles.signupLink}>
-        Don't have an account? <Link to="/admin/signup">Create new account</Link>
-      </div>
     </div>
   );
 };

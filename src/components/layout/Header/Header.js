@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
-import logo from '../../../assets/TransparentLanding-82.png'
+
 import { Link as ScrollLink } from 'react-scroll';
 import { logout } from '../../../utils/auth';
 
@@ -18,7 +18,8 @@ const Header = ({ userRole, setUserRole, showNavLinks = true }) => {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <img src={logo} alt="Qemer Logo" />
+        {/* <img src={logo} alt="Qemer Logo" /> */}
+        <span>Qemer</span>
       </div>
       {showNavLinks && (
         <nav className={styles.nav}>
