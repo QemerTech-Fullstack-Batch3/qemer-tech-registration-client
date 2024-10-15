@@ -68,15 +68,27 @@ const CoursePage = () => {
                 <div className={styles.dateGroup}>
                   <div className={styles.dateInfo}>
                     <span className={styles.dateLabel}>Start Date</span>
-                    <span className={styles.dateValue}>{new Date(course.startDate).toLocaleDateString()}</span>
+                    <span className={styles.dateValue}>
+                      {new Date(course.startDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </span>
                   </div>
                   <div className={styles.dateInfo}>
                     <span className={styles.dateLabel}>End Date</span>
-                    <span className={styles.dateValue}>{new Date(course.endDate).toLocaleDateString()}</span>
+                    <span className={styles.dateValue}>
+                      {new Date(course.endDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                      })}
+                    </span>
                   </div>
                 </div>
               </div>
-              <p className={`${styles.registrationStatus} ${styles[course.courseRegistrationStatus.toLowerCase()]}`}>
+              <p className={`${styles.registrationStatus} ${styles[course.courseRegistrationStatus.toLowerCase().replace(' ', '')]}`}>
                 {course.courseRegistrationStatus}
               </p>
               {isRegistrationOpen && (

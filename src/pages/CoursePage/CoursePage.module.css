@@ -214,7 +214,14 @@
   background-color: #4CAF50;
   color: white;
 }
-
+.onprogress {
+  background-color: #FFC107; 
+  color: white;
+}
+.ended {
+  background-color: #F44336; 
+  color: white;
+}
 .closed {
   background-color: #F44336;
   color: white;

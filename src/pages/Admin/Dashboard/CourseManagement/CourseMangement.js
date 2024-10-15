@@ -338,9 +338,9 @@ const CourseManagement = ({ userRole }) => {
               required
               className={styles.formSelect}
             >
-              <option value="OnRegistration">On Registration</option>
-              <option value="OnProgress">On Progress</option>
-              <option value="ended">Ended</option>
+              <option value="On Registration">On Registration</option>
+              <option value="On Progress">On Progress</option>
+              <option value="Ended">Ended</option>
             </select>
             {newCourse.learningMode === 'InPerson' && (
               <input
