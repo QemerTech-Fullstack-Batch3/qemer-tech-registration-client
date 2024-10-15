@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://qemer-tech-registration-server.onrender.com'; 
+const API_BASE_URL = 'http://localhost:5000'; 
 
 const api = axios.create({
   baseURL: API_BASE_URL,
