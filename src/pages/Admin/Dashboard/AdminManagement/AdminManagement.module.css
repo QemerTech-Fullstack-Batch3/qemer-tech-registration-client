@@ -102,28 +102,40 @@
   background-color: #4CAF50;
   color: white;
 }
-
-.formButtons {
-  display: flex;
-  justify-content: space-between;
-}
-
 .submitButton {
-  background-color: #1890ff;
-  color: white;
-  width: 85%; 
+  background-color: white;
+  border: 2px solid #4CAF50;
+  margin-right: 0.8rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #4CAF50;
+
 }
 
 .submitButton:hover {
-  background-color: #40a9ff;
+  background-color: #4CAF50;
+  color: white;
 }
 
 .cancelButton {
-  background-color: #f5222d;
-  color: white;
-  width: 15%; 
+  background-color: white;
+  border: 2px solid #f44336;
+  color: #f44336;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .cancelButton:hover {
-  background-color: #ff4d4f; 
+  background-color: #f44336;
+  color: white;
 }

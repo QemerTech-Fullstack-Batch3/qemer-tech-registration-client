@@ -52,15 +52,15 @@ const ManageAccount = () => {
             required
             className={styles.formInput}
           />
-          <button onClick={handleChangePassword} className={styles.button}>
+          <button onClick={handleChangePassword} className={styles.submitButton}>
             Change Password
           </button>
-          <button onClick={() => setIsChangingPassword(false)} className={styles.button}>
+          <button onClick={() => setIsChangingPassword(false)} className={styles.cancelButton}>
             Cancel
           </button>
         </div>
       ) : (
-        <button onClick={() => setIsChangingPassword(true)} className={styles.button}>
+        <button onClick={() => setIsChangingPassword(true)} className={styles.submitButton}>
           Change Password
         </button>
       )}
